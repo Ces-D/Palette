@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Palette.Core.Models
+namespace Palette.Core.Interfaces
 {
-    public class Color : IColor
+    public interface IColor
     {
         public string Role { get; set; }
-        public string Value { get; set; }
-        public Boolean Locked { get; set; } = false;
+        public Boolean Locked { get; set; }
+        public string Color { get; set; }
     }
 }
