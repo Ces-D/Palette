@@ -10,5 +10,8 @@ namespace Palette.Core.Interfaces
         public string Role { get; set; }
         public Boolean Locked { get; set; }
         public string Color { get; set; }
+        public ushort A { get; set; }
+        public ushort B { get; set; }
+        public ushort C { get; set; }
     }
 }

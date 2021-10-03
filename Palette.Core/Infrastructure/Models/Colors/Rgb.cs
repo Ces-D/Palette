@@ -42,7 +42,7 @@ namespace Palette.Core.Infrastructure.Models.Colors
                 }
                 return true;
             }
-            else throw new ColorFormatException($"Your RGB input string is incorrectly entered: {color}");
+            else return false;
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Palette.Core.Infrastructure
     {
         public static Rgb ToRgb(Hex hex)
         {
+
         }
 
         public static Rgb ToRgb(Hsv hsv) { }
