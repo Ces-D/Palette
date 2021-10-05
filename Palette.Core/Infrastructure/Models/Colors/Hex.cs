@@ -8,24 +8,41 @@ using System.Threading.Tasks;
 
 namespace Palette.Core.Infrastructure.Models.Colors
 {
-    public class Hex : IColor
+    public class Hex : IColor<string>
     {
-        public string Role { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool Locked { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string Color { get => Color; set { if (FormatValidator(value)) { Color = value; } } }
+        public string Role { get; init; }
+        public bool Locked { get; init; }
+        public string Color { get; init; }
+        public string A { get; init; }
+        public string B { get; init; }
+        public string C { get; init; }
 
         public Hex(string role, bool locked, string color)
         {
             Role = role;
             Locked = locked;
-            Color = color;
+            if (FormatValidator(color))
+            {
+                Color = color;
+                A = color.Substring(1, 2);
+                B = color.Substring(3, 2);
+                C = color.Substring(5, 2);
+            }
+            else throw new ColorFormatException("Hex", color);
         }
 
         public Hex(string color)
         {
             Role = "Unkown";
             Locked = false;
-            Color = color;
+            if (FormatValidator(color))
+            {
+                Color = color;
+                A = color.Substring(1, 2);
+                B = color.Substring(3, 2);
+                C = color.Substring(5, 2);
+            }
+            else throw new ColorFormatException("Hex", color);
         }
 
         public static bool FormatValidator(string hex)

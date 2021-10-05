@@ -38,13 +38,12 @@ namespace Palette.Core.Tests.Colors
         }
 
         [Theory]
-        [InlineData("(250,0.26,0.47)")]
-        [InlineData("(0,0,1)")]
-        [InlineData("(0,0,0)")]
-        [InlineData("(250,0.81,0.14)")]
-        [InlineData("(104,0.3,0.97)")]
-        [InlineData("(341,0.81,0.53)")]
-        [InlineData("(359,1,1)")]
+        [InlineData("hsv(317, 43%, 75%)")]
+        [InlineData("hsv(0, 0%, 100%)")]
+        [InlineData("hsv(0, 0%, 0%)")]
+        [InlineData("hsv(153, 55%, 36%)")]
+        [InlineData("hsv(344, 72%, 72%)")]
+        [InlineData("hsv(356, 95%, 99%)")]
         public void Check_hsv_format_validator_accepted_values(string hsv)
         {
             Assert.True(Hsv.FormatValidator(hsv));

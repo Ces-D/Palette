@@ -8,37 +8,41 @@ using System.Threading.Tasks;
 
 namespace Palette.Core.Infrastructure.Models.Colors
 {
-    public class Rgb : IColor
-    { 
-        public string Role { get; set; }
-        public bool Locked { get; set; }
-        public string Color { get => Color; set { if (FormatValidator(value)) { Color = value; } } }
+    public class Rgb : IColor<byte>
+    {
+        public string Role { get; init; }
+        public bool Locked { get; init; }
+        public string Color { get; init; }
+        public byte A { get; init; }
+        public byte B { get; init; }
+        public byte C { get; init; }
 
-        public Rgb(string color)
+        public Rgb(byte a, byte b, byte c)
         {
             Role = "Unkown";
             Locked = false;
-            Color = color;
-        }
-
-        public Rgb(string role, bool locked, string color)
-        {
-            Role = role;
-            Locked = locked;
-            Color = color;
+            string rgb = $"rgb({a}, {b}, {c})";
+            if (FormatValidator(rgb))
+            {
+                A = a;
+                B = b;
+                C = c;
+                Color = rgb;
+            }
+            else throw new ColorFormatException("Rgb", rgb);
         }
 
         public static bool FormatValidator(string color)
         {
-            Regex template = new(@"/rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/");
+            Regex template = new(@"rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)");
             Match match = template.Match(color);
             if (match.Success)
             {
                 Regex digits = new(@"(\d{1,3})");
                 MatchCollection values = digits.Matches(color);
-                foreach(Match v in values)
+                foreach (Match v in values)
                 {
-                    byte.Parse(v.Value);
+                    if (byte.TryParse(v.Value, out byte result)) { continue; } else return false;
                 }
                 return true;
             }

@@ -9,44 +9,61 @@ using System.Threading.Tasks;
 // see: https://en.wikipedia.org/wiki/HSL_and_HSV
 namespace Palette.Core.Infrastructure.Models.Colors
 {
-    public class Hsv : IColor
+    public class Hsv : IColor<uint>
     {
-        public string Role { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool Locked { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string Color { get { return Color; } set { if (Hsv.FormatValidator(value)) { Color = value; } } }
+        public string Role { get; init; }
+        public bool Locked { get; init; }
+        public string Color { get; init; }
+        public uint A { get; init; }
+        public uint B { get; init; }
+        public uint C { get; init; }
 
-        public Hsv(string role, bool locked, string color)
+        public Hsv(string role, bool locked, uint a, uint b, uint c)
         {
             Role = role;
             Locked = locked;
-            Color = color;
-        }
-        public Hsv(string color)
-        {
-            Role = "unknown";
-            Locked = false;
-            Color = color;
+            string hsv = $"hsv({a}, {b}%, {c}%)";
+            if (FormatValidator(hsv) && a < 360 && b <= 100 && c <= 100)
+            {
+                A = a;
+                B = b;
+                C = c;
+                Color = hsv;
+            }
+            else throw new ColorFormatException("HSV", $"hsv({a}, {b}%, {c}%)");
+
         }
 
-        // (100,1,1) | (23, 0.001, 0.25)
-        public static bool FormatValidator(string color)
+        public Hsv(uint a, uint b, uint c)
         {
-            if (color.StartsWith('(') && color.EndsWith(')'))
+            Role = "Uknown";
+            Locked = false;
+            string hsv = $"hsv({a}, {b}%, {c}%)";
+            if (FormatValidator(hsv) && a < 360 && b <= 100 && c <= 100)
             {
-                color = color.TrimEnd(')').TrimStart('(');
-                string[] vals = color.Split(',');
-                if (vals.Length != 3) return false;
-                if (!int.TryParse(vals[0], out int result)) { if (result >= 360) return false; };
-                if (Decimal.TryParse(vals[1], out Decimal dec1) && Decimal.TryParse(vals[2], out Decimal dec2))
-                {
-                    if (0 <= dec1 && 0 <= dec2 && 1 >= dec1 && 1 >= dec2) { return true; } else return false;
-                }
-                else
-                {
-                    return false;
-                }
+                A = a;
+                B = b;
+                C = c;
+                Color = hsv;
             }
-            return false;
+            else throw new ColorFormatException("HSV", $"hsv({a}, {b}%, {c}%)");
+        }
+
+        public static bool FormatValidator(string hsv)
+        {
+            Regex template = new(@"hsv\((\d{1,3}), (\d{1,3})%, (\d{1,3})%\)");
+            Match match = template.Match(hsv);
+            if (match.Success)
+            {
+                Regex digits = new(@"(\d{1,3})");
+                MatchCollection values = digits.Matches(hsv);
+                foreach (Match v in values)
+                {
+                    if (uint.TryParse(v.Value, out uint result)) { continue; } else return false;
+                }
+                return true;
+            }
+            else return false;
         }
     }
 }
