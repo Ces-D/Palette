@@ -9,19 +9,15 @@ using System.Threading.Tasks;
 // see: https://en.wikipedia.org/wiki/HSL_and_HSV
 namespace Palette.Core.Infrastructure.Models.Colors
 {
-    public class Hsv : IColor<uint>
+    public class Hsv : IColor<int>
     {
-        public string Role { get; init; }
-        public bool Locked { get; init; }
         public string Color { get; init; }
-        public uint A { get; init; }
-        public uint B { get; init; }
-        public uint C { get; init; }
+        public int A { get; init; }
+        public int B { get; init; }
+        public int C { get; init; }
 
-        public Hsv(string role, bool locked, uint a, uint b, uint c)
+        public Hsv(int a, int b, int c)
         {
-            Role = role;
-            Locked = locked;
             string hsv = $"hsv({a}, {b}%, {c}%)";
             if (FormatValidator(hsv) && a < 360 && b <= 100 && c <= 100)
             {
@@ -32,21 +28,6 @@ namespace Palette.Core.Infrastructure.Models.Colors
             }
             else throw new ColorFormatException("HSV", $"hsv({a}, {b}%, {c}%)");
 
-        }
-
-        public Hsv(uint a, uint b, uint c)
-        {
-            Role = "Uknown";
-            Locked = false;
-            string hsv = $"hsv({a}, {b}%, {c}%)";
-            if (FormatValidator(hsv) && a < 360 && b <= 100 && c <= 100)
-            {
-                A = a;
-                B = b;
-                C = c;
-                Color = hsv;
-            }
-            else throw new ColorFormatException("HSV", $"hsv({a}, {b}%, {c}%)");
         }
 
         public static bool FormatValidator(string hsv)
@@ -59,11 +40,69 @@ namespace Palette.Core.Infrastructure.Models.Colors
                 MatchCollection values = digits.Matches(hsv);
                 foreach (Match v in values)
                 {
-                    if (uint.TryParse(v.Value, out uint result)) { continue; } else return false;
+                    if (uint.TryParse(v.Value, out _)) { continue; } else return false;
                 }
                 return true;
             }
             else return false;
         }
+
+        // see - https://www.had2know.com/technology/hsv-rgb-conversion-formula-calculator.html#:~:text=Converting%20HSV%20to%20RGB%20Given%20the%20values%20of,M%20%3D%20255V%20m%20%3D%20M%20%281-S%29.%20
+        public static Rgb ToRgb(Hsv hsv)
+        {
+            byte R;
+            byte G;
+            byte B;
+            double M = 255 * ((double)hsv.C / 100);
+            double m = M * (1 - ((double)hsv.B / 100));
+
+            double z = (M - m) * (1 - (Math.Abs(((double)hsv.A / 60) % 2 - 1)));
+
+            if (0 <= hsv.A && hsv.A < 60)
+            {
+                R = Convert.ToByte(M);
+                G = Convert.ToByte(z + m);
+                B = Convert.ToByte(m);
+                return new Rgb(R, G, B);
+            }
+            else if (60 <= hsv.A && hsv.A < 120)
+            {
+                R = Convert.ToByte(z + m);
+                G = Convert.ToByte(M);
+                B = Convert.ToByte(m);
+                return new Rgb(R, G, B);
+            }
+            else if (120 <= hsv.A && hsv.A < 180)
+            {
+                R = Convert.ToByte(m);
+                G = Convert.ToByte(M);
+                B = Convert.ToByte(z + m);
+                return new Rgb(R, G, B);
+            }
+            else if (180 <= hsv.A && hsv.A < 240)
+            {
+                R = Convert.ToByte(m);
+                G = Convert.ToByte(z + m);
+                B = Convert.ToByte(M);
+                return new Rgb(R, G, B);
+            }
+            else if (240 <= hsv.A && hsv.A < 300)
+            {
+                R = Convert.ToByte(z + m);
+                G = Convert.ToByte(m);
+                B = Convert.ToByte(M);
+                return new Rgb(R, G, B);
+            }
+            else if (300 <= hsv.A && hsv.A < 360)
+            {
+                R = Convert.ToByte(M);
+                G = Convert.ToByte(m);
+                B = Convert.ToByte(z + m);
+                return new Rgb(R, G, B);
+            }
+            else return new Rgb(0, 0, 0);
+        }
+
+        //TODO: public static Hex ToHex(Hsv hsv){}
     }
 }

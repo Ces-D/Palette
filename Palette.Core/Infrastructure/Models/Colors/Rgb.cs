@@ -10,8 +10,6 @@ namespace Palette.Core.Infrastructure.Models.Colors
 {
     public class Rgb : IColor<byte>
     {
-        public string Role { get; init; }
-        public bool Locked { get; init; }
         public string Color { get; init; }
         public byte A { get; init; }
         public byte B { get; init; }
@@ -19,8 +17,6 @@ namespace Palette.Core.Infrastructure.Models.Colors
 
         public Rgb(byte a, byte b, byte c)
         {
-            Role = "Unkown";
-            Locked = false;
             string rgb = $"rgb({a}, {b}, {c})";
             if (FormatValidator(rgb))
             {
@@ -42,11 +38,40 @@ namespace Palette.Core.Infrastructure.Models.Colors
                 MatchCollection values = digits.Matches(color);
                 foreach (Match v in values)
                 {
-                    if (byte.TryParse(v.Value, out byte result)) { continue; } else return false;
+                    if (byte.TryParse(v.Value, out _)) { continue; } else return false;
                 }
                 return true;
             }
             else return false;
         }
+
+        // see - https://github.com/LeoSimp/ColorConverter/blob/master/ColorConverter.cs
+        public static Hsv ToHsv(Rgb rgb)
+        {
+            double R = (double)rgb.A;
+            double G = (double)rgb.B;
+            double B = (double)rgb.C;
+            double M = Math.Max(R, Math.Max(G, B));
+            double m = Math.Min(R, Math.Min(G, B));
+
+            double V = (M / 255) * 100;
+            double S = M > 0 ? (1 - (m / M)) * 100 : 0;
+            double sqrtPortion = Math.Pow(R, 2) + Math.Pow(G, 2) + Math.Pow(B, 2) - (R * G) - (R * B) - (G * B);
+            double D = (R - (0.5 * G) - (0.5 * B)) / Math.Sqrt(sqrtPortion);
+
+            if (G >= B)
+            {
+                double Hrads = Math.Acos(D);
+                double H = Hrads * (180 / Math.PI); // Converting from radians to degrees
+                return new Hsv((int)H, (int)S, (int)V);
+            }
+            else
+            {
+                double H = 360 - Math.Acos(D);
+                return new Hsv((int)H, (int)S, (int)V);
+            }
+        }
+
+        //TODO: public static Hex ToHex(Rgb rgb){}
     }
 }

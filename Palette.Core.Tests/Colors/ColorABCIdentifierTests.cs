@@ -8,7 +8,7 @@ using Palette.Core.Infrastructure.Models.Colors;
 
 namespace Palette.Core.Tests.Colors
 {
-    public class ColorABCIdentifiers
+    public class ColorABCIdentifierTests
     {
 
         [Fact]

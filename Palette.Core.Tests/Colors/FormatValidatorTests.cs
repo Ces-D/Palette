@@ -8,7 +8,7 @@ using Palette.Core.Infrastructure.Models.Colors;
 
 namespace Palette.Core.Tests.Colors
 {
-    public class FormatValidators
+    public class FormatValidatorTests
     {
         [Theory]
         [InlineData("#452485")]

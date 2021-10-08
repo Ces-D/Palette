@@ -10,31 +10,13 @@ namespace Palette.Core.Infrastructure.Models.Colors
 {
     public class Hex : IColor<string>
     {
-        public string Role { get; init; }
-        public bool Locked { get; init; }
         public string Color { get; init; }
         public string A { get; init; }
         public string B { get; init; }
         public string C { get; init; }
 
-        public Hex(string role, bool locked, string color)
-        {
-            Role = role;
-            Locked = locked;
-            if (FormatValidator(color))
-            {
-                Color = color;
-                A = color.Substring(1, 2);
-                B = color.Substring(3, 2);
-                C = color.Substring(5, 2);
-            }
-            else throw new ColorFormatException("Hex", color);
-        }
-
         public Hex(string color)
         {
-            Role = "Unkown";
-            Locked = false;
             if (FormatValidator(color))
             {
                 Color = color;
@@ -55,6 +37,16 @@ namespace Palette.Core.Infrastructure.Models.Colors
             }
 
             return false;
+        }
+
+        //TODO: public static Hsv ToHsv(Hex hex) { }
+
+        public static Rgb ToRgb(Hex hex)
+        {
+            byte r = Convert.ToByte(hex.A, 16);
+            byte g = Convert.ToByte(hex.B, 16);
+            byte b = Convert.ToByte(hex.C, 16);
+            return new Rgb(r, g, b);
         }
     }
 }
