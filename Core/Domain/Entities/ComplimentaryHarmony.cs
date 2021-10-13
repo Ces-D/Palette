@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Core.Domain.ValueObjects;
 
 namespace Core.Domain.Entities
 {
-    public class Color
+    public class ComplimentaryHarmony
     {
-        public Rgb Rgb { get; set; }
-        public Hsv Hsv { get; set; }
-        public Hex Hex { get; set; }
+        public Color Primary { get; set; }
+        public Color Compliment { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Core.Domain.Exceptions;
 
-namespace Core.Domain.Entities
+namespace Core.Domain.ValueObjects
 {
     public class Hex
     {
@@ -48,6 +48,21 @@ namespace Core.Domain.Entities
         public string Blue { get; private set; }
 
         public static implicit operator string(Hex hex) => hex.ToString();
+
+        public Rgb ToRgb()
+        {
+            byte r = Convert.ToByte(Red, 16);
+            byte g = Convert.ToByte(Green, 16);
+            byte b = Convert.ToByte(Blue, 16);
+            return Rgb.From($"rgb({r}, {g}, {b})");
+        }
+
+        public Hsv ToHsv()
+        {
+            var rgb = ToRgb();
+            return rgb.ToHsv();
+        }
+
         public override string ToString() => $"#{Red}{Green}{Blue}";
     }
 }

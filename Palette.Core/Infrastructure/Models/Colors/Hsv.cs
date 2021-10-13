@@ -52,10 +52,10 @@ namespace Palette.Core.Infrastructure.Models.Colors
             byte R;
             byte G;
             byte B;
-            double M = 255 * ((double)hsv.C / 100);
-            double m = M * (1 - ((double)hsv.B / 100));
+            double M = 255 * (hsv.C / 100);
+            double m = M * (1 - (hsv.B / 100));
 
-            double z = (M - m) * (1 - (Math.Abs(((double)hsv.A / 60) % 2 - 1)));
+            double z = (M - m) * (1 - (Math.Abs((hsv.A / 60) % 2 - 1)));
 
             if (0 <= hsv.A && hsv.A < 60)
             {
