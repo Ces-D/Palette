@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Palette.Core.Interfaces
+namespace Palette.Core.Infrastructure.Models.Colors
 {
-    public interface IColor<T>
+    public interface IColorFormat<T>
     {
         public string Color { get; init; }
         public T A { get; init; }

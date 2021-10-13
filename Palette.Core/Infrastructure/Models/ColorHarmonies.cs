@@ -8,28 +8,25 @@ namespace Palette.Core.Infrastructure.Models
 {
     public class ColorHarmonies
     {
-        private readonly Color _color;
-
-        public ColorHarmonies(Color color)
+        public Color Primary { get; set; }
+        public ColorHarmonies(Color primary)
         {
-            _color = color;
+            Primary = primary;
         }
 
-        public IEnumerable<Color> Complimentary()
+        public List<Color> Complimentary()
         {
-            Color compliment = new();
+            if (Primary.Hsv.A == 0 && Primary.Hsv.B == 0 && Primary.Hsv.C == 100) return new List<Color> { Primary, Primary }; // white
+            if (Primary.Hsv.A == 0 && Primary.Hsv.B == 0 && Primary.Hsv.C == 0) return new List<Color> { Primary, Primary }; // black
 
-            int complimentHue = _color.Hsv.A - 180;
-            if (complimentHue < 0)
+            int complimentH = Primary.Hsv.A - 180;
+            if (complimentH < 0)
             {
-                complimentHue = 360 - complimentHue;
+                complimentH = 360 - complimentH;
             }
-            else if (complimentHue == 0)
-            { complimentHue = 359; }
+            Hsv complimentHsv = new(complimentH, Primary.Hsv.B, Primary.Hsv.C);
 
-            compliment.Hsv = new Hsv(complimentHue, _color.Hsv.B, _color.Hsv.C);
-
-            return new List<Color> { _color, compliment };
+            return new List<Color> { Primary, new Color(complimentHsv) };
         }
     }
 }

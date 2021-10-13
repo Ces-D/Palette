@@ -121,5 +121,45 @@ namespace Palette.Core.Tests.Colors
             var hsv = Rgb.ToHsv(rgb);
             Assert.Equal("hsv(120, 94%, 91%)", hsv.Color);
         }
+
+        [Fact]
+        public void Check_rgb_to_hex_converter_white()
+        {
+            Rgb rgb = new(255, 255, 255);
+            var hex = Rgb.ToHex(rgb);
+            Assert.Equal("#FFFFFF", hex.Color);
+        }
+
+        [Fact]
+        public void Check_rgb_to_hex_converter_black()
+        {
+            Rgb rgb = new(0, 0, 0);
+            var hex = Rgb.ToHex(rgb);
+            Assert.Equal("#000000", hex.Color);
+        }
+
+        [Fact]
+        public void Check_rgb_to_hex_converter_red()
+        {
+            Rgb rgb = new(240, 51, 129);
+            var hex = Rgb.ToHex(rgb);
+            Assert.Equal("#F03381", hex.Color);
+        }
+        [Fact]
+        public void Check_rgb_to_hex_converter_blue()
+        {
+            Rgb rgb = new(11, 112, 227);
+            var hex = Rgb.ToHex(rgb);
+            Assert.Equal("#0B70E3", hex.Color);
+        }
+
+        [Fact]
+        public void Check_rgb_to_hex_converter_green()
+        {
+            Rgb rgb = new(74, 248, 0);
+            var hex = Rgb.ToHex(rgb);
+            Assert.Equal("#4AF800", hex.Color);
+        }
+
     }
 }

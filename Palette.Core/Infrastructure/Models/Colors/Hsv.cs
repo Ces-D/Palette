@@ -1,5 +1,4 @@
 ﻿using Palette.Core.Infrastructure.Exceptions;
-using Palette.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 // see: https://en.wikipedia.org/wiki/HSL_and_HSV
 namespace Palette.Core.Infrastructure.Models.Colors
 {
-    public class Hsv : IColor<int>
+    public class Hsv : IColorFormat<int>
     {
         public string Color { get; init; }
         public int A { get; init; }
@@ -103,6 +102,10 @@ namespace Palette.Core.Infrastructure.Models.Colors
             else return new Rgb(0, 0, 0);
         }
 
-        //TODO: public static Hex ToHex(Hsv hsv){}
+        public static Hex ToHex(Hsv hsv)
+        {
+            Rgb rgb = Hsv.ToRgb(hsv);
+            return Rgb.ToHex(rgb);
+        }
     }
 }

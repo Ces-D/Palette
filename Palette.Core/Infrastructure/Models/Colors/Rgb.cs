@@ -1,14 +1,13 @@
-﻿using Palette.Core.Infrastructure.Exceptions;
-using Palette.Core.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Palette.Core.Infrastructure.Exceptions;
 
 namespace Palette.Core.Infrastructure.Models.Colors
 {
-    public class Rgb : IColor<byte>
+    public class Rgb : IColorFormat<byte>
     {
         public string Color { get; init; }
         public byte A { get; init; }
@@ -48,6 +47,9 @@ namespace Palette.Core.Infrastructure.Models.Colors
         // see - https://github.com/LeoSimp/ColorConverter/blob/master/ColorConverter.cs
         public static Hsv ToHsv(Rgb rgb)
         {
+            if (rgb.A == byte.MaxValue && rgb.B == byte.MaxValue && rgb.C == byte.MaxValue) { return new Hsv(0, 0, 100); } // white
+            if (rgb.A == byte.MinValue && rgb.B == byte.MinValue && rgb.C == byte.MinValue) { return new Hsv(0, 0, 0); } // black
+
             double R = (double)rgb.A;
             double G = (double)rgb.B;
             double B = (double)rgb.C;
@@ -72,6 +74,13 @@ namespace Palette.Core.Infrastructure.Models.Colors
             }
         }
 
-        //TODO: public static Hex ToHex(Rgb rgb){}
+        public static Hex ToHex(Rgb rgb)
+        {
+            string A = String.Format("{0:X2}", rgb.A);
+            string B = String.Format("{0:X2}", rgb.B);
+            string C = String.Format("{0:X2}", rgb.C);
+
+            return new Hex($"#{A}{B}{C}");
+        }
     }
 }

@@ -33,18 +33,18 @@ namespace Palette.Core.Tests.Colors
         public void Check_hsv_abc_values()
         {
             Hsv hsv = new(92, 84, 100);
-            Assert.Equal((uint)92, hsv.A);
-            Assert.Equal((uint)84, hsv.B);
-            Assert.Equal((uint)100, hsv.C);
+            Assert.Equal(92, hsv.A);
+            Assert.Equal(84, hsv.B);
+            Assert.Equal(100, hsv.C);
         }
-        
+
         [Fact]
         public void Check_hsv_abc_values_red()
         {
             Hsv hsv = new(0, 81, 97);
-            Assert.Equal((uint)0, hsv.A);
-            Assert.Equal((uint)81, hsv.B);
-            Assert.Equal((uint)97, hsv.C);
+            Assert.Equal(0, hsv.A);
+            Assert.Equal(81, hsv.B);
+            Assert.Equal(97, hsv.C);
         }
     }
 }
