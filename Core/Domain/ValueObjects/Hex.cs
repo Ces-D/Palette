@@ -18,21 +18,12 @@ namespace Core.Domain.ValueObjects
 
             try
             {
-                var hexFormatPattern = new Regex(@"^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})");
+                var hexFormatPattern = new Regex(@"^#([a-fA-F0-9]{6})");
                 if (hexFormatPattern.IsMatch(hexString))
                 {
-                    if (hexString.Length == 7)
-                    {
-                        hex.Red = hexString.Substring(1, 2);
-                        hex.Green = hexString.Substring(3, 2);
-                        hex.Blue = hexString.Substring(5, 2);
-                    }
-                    else
-                    {
-                        hex.Red = hexString.Substring(1, 1);
-                        hex.Green = hexString.Substring(2, 1);
-                        hex.Blue = hexString.Substring(3, 1);
-                    }
+                    hex.Red = hexString.Substring(1, 2).ToUpper();
+                    hex.Green = hexString.Substring(3, 2).ToUpper();
+                    hex.Blue = hexString.Substring(5, 2).ToUpper();
                 }
             }
             catch (Exception ex)

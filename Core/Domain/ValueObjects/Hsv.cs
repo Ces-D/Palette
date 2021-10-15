@@ -23,9 +23,9 @@ namespace Core.Domain.ValueObjects
                 {
                     string hsvNonDigitPattern = @"\D+";
                     var digits = Regex.Split(hsvString, hsvNonDigitPattern); // split by non digits
-                    var H = float.Parse(digits[0]);
-                    var S = float.Parse(digits[1]);
-                    var V = float.Parse(digits[2]);
+                    var H = float.Parse(digits[1]);
+                    var S = float.Parse(digits[2]);
+                    var V = float.Parse(digits[3]);
 
                     if (H < 0 && H >= 360) throw new ArgumentOutOfRangeException("Hue", "Hue should be between 0 and 360");
                     if (S < 0 && S > 100) throw new ArgumentOutOfRangeException("Saturation", "Saturation should be between 0 and 100");
@@ -33,7 +33,7 @@ namespace Core.Domain.ValueObjects
 
                     hsv.Hue = H;
                     hsv.Saturation = S;
-                    hsv.Value = S;
+                    hsv.Value = V;
                 }
             }
             catch (Exception ex)
@@ -112,6 +112,5 @@ namespace Core.Domain.ValueObjects
 // https://www.ssw.com.au/rules/rules-to-better-clean-architecture
 // https://www.dandoescode.com/blog/clean-architecture-an-introduction/
 
-// TODO: find a place and move the conversion functions 
 // TODO: Complete tests for new core
 // TODO: figure out how the react frontend connects to asp.net

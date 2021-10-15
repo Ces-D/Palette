@@ -27,7 +27,7 @@ namespace Core.Application.Logic
         {
             var hex = Hex.From(hexString);
             var rgb = hex.ToRgb();
-            var hsv = rgb.ToHsv();
+            var hsv = hex.ToHsv();
             return new Color()
             {
                 Rgb = rgb,
@@ -40,7 +40,7 @@ namespace Core.Application.Logic
         {
             var hsv = Hsv.From(hsvString);
             var hex = hsv.ToHex();
-            var rgb = hex.ToRgb();
+            var rgb = hsv.ToRgb();
             return new Color()
             {
                 Rgb = rgb,

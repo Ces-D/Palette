@@ -7,10 +7,10 @@ using Core.Domain.Entities;
 
 namespace Core.Application.Logic
 {
-    public class ComplimentaryColors
+    public class ComplimentaryColorBuilder
     {
         private Color _primary { get; set; }
-        public ComplimentaryColors(Color color)
+        public ComplimentaryColorBuilder(Color color)
         {
             _primary = color;
         }

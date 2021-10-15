@@ -23,9 +23,9 @@ namespace Core.Domain.ValueObjects
                 {
                     string rgbNonDigitPattern = @"\D+";
                     var digits = Regex.Split(rgbString, rgbNonDigitPattern); // split by non digits
-                    rgb.Red = byte.Parse(digits[0]);
-                    rgb.Green = byte.Parse(digits[1]);
-                    rgb.Blue = byte.Parse(digits[2]);
+                    rgb.Red = byte.Parse(digits[1]);
+                    rgb.Green = byte.Parse(digits[2]);
+                    rgb.Blue = byte.Parse(digits[3]);
                 }
             }
             catch (Exception ex)
