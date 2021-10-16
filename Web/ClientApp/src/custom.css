@@ -1,14 +1,10 @@
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
-}
+/* ./src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-code {
-  color: #E01A76;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+@layer base {
+  select {
+    @apply bg-white w-20 px-2 py-0.5 rounded-sm;
+  }
 }
