@@ -3,8 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  select {
-    @apply bg-white w-20 px-2 py-0.5 rounded-sm;
+@layer utilities {
+  .slider-thumb::-webkit-slider-thumb {
+    @apply appearance-none w-3 h-3 rounded-full bg-black cursor-pointer;
   }
 }
