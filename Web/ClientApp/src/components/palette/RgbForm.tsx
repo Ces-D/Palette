@@ -12,7 +12,6 @@ export default function RgbForm(props: ColorFormProps) {
     props.color.setColorValue(`rgb(${red}, ${green}, ${blue})`);
   }, [red, green, blue]);
 
-  // TODO: consider deleting the plus minus icons from general/form/icon
   // TODO: consider creating a ColorFormContainer for the parent div here
 
   return (

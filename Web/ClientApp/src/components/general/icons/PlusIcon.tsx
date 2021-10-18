@@ -2,7 +2,7 @@ type Props = {
   class?: string;
 };
 
-export default function Plus(props: Props) {
+export default function PlusIcon(props: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
