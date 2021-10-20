@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ColorInputSection from "../general/form/ColorInputSection";
 import ColorSelectSection from "../general/form/ColorSelectSection";
-import { ColorFormProps } from "./ColorItem";
+import { ColorFormProps } from "./ColorFormDisplayContainer";
 
 export default function RgbForm(props: ColorFormProps) {
   const [red, setRed] = useState(0);

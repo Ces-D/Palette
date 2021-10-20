@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "./general/Header";
+import PaletteContextProvider from "../components/contexts/ColorPalette/PaletteContext";
 
 type Props = {
   children: React.ReactNode;
@@ -7,9 +8,11 @@ type Props = {
 
 export default function Layout(props: Props) {
   return (
-    <>
-      <Header />
-      {props.children}
-    </>
+    <PaletteContextProvider>
+      <>
+        <Header />
+        {props.children}
+      </>
+    </PaletteContextProvider>
   );
 }

@@ -1,82 +1,44 @@
-import { useState } from "react";
-import useColorGenerator, { ColorValueProps } from "../hooks/useColorGenerator";
-import { ColorSelectSectionProps } from "../general/form/ColorSelectSection";
-import Switch from "../general/Switch";
-import HexForm from "./HexForm";
-import HsvForm from "./HsvForm";
-import RgbForm from "./RgbForm";
-import useColorPalette from "../hooks/usePalette";
+import { useState, useContext } from "react";
+import { Color } from "../hooks/useColorGenerator";
 import LockOpenClosed from "../general/icons/LockOpenIcon";
 import LockClosedIcon from "../general/icons/LockClosedIcon";
-import PlusIcon from "../general/icons/PlusIcon";
 import MinusIcon from "../general/icons/MinusIcon";
+import ColorFormDisplayContainer from "./ColorFormDisplayContainer";
+import { PaletteContext } from "../contexts/ColorPalette/PaletteContext";
 
-export type ColorTypes = "rgb" | "hex" | "hsv";
-
-export type ColorFormProps = {
-  color: ColorValueProps;
-  value: ColorTypes;
-  selectSection: ColorSelectSectionProps;
-};
-
-export default function ColorItem(props: { colorKey: string }) {
+export default function ColorItem(props: Color) {
+  const { dispatch } = useContext(PaletteContext);
   const [lock, setLocked] = useState(false);
-  const [colorType, setColorType] = useState<ColorTypes | string>("rgb");
-  const { getColor, setColor } = useColorPalette();
-  const { hex, setHex, rgb, setRgb, hsv, setHsv, color } = useColorGenerator(
-    getColor(props.colorKey)
-  );
-
-  setColor(color);
-
-  const selectSection: ColorSelectSectionProps = {
-    selected: colorType,
-    setColorType: setColorType,
-  };
 
   return (
-    <li className="flex-grow h-96 relative" style={{ backgroundColor: rgb }}>
+    <li className="flex-grow h-96" style={{ backgroundColor: props.rgb }}>
       <div className="flex flex-col justify-around items-center p-2 h-full">
-        <Switch
-          searchValue={colorType}
-          children={[
-            <RgbForm
-              value="rgb"
-              selectSection={selectSection}
-              color={{ colorValue: rgb, setColorValue: setRgb }}
-            />,
-            <HexForm
-              value="hex"
-              selectSection={selectSection}
-              color={{ colorValue: hex, setColorValue: setHex }}
-            />,
-            <HsvForm
-              value="hsv"
-              selectSection={selectSection}
-              color={{ colorValue: hsv, setColorValue: setHsv }}
-            />,
-          ]}
-        />
+        <ColorFormDisplayContainer {...props} />
         <button
-          className="rounded-full hover:bg-gray-50 p-2"
+          className="rounded-full hover:bg-gray-50 p-2 text-red-600"
           onClick={() => setLocked(!lock)}
         >
           {!lock ? (
-            <LockOpenClosed class="fill-current text-red-600 h-5 w-5" />
+            <LockOpenClosed class="fill-current h-5 w-5" />
           ) : (
-            <LockClosedIcon class="fill-current text-red-600 h-5 w-5" />
+            <LockClosedIcon class="fill-current h-5 w-5" />
           )}
         </button>
-        <button className="absolute top-1/2 right-5 rounded-full hover:bg-gray-50 p-2">
-          <PlusIcon class="fill-current text-red-600 h-5 w-5" />
-        </button>
-        <button className="absolute top-1/2 left-5 rounded-full hover:bg-gray-50 p-2">
-          <MinusIcon class="fill-current text-red-600 h-5 w-5" />
+        <button
+          onClick={() => {
+            !lock && dispatch({ type: "remove-color", payload: { colorId: props.id } });
+          }}
+          className={
+            lock
+              ? "bg-gray-800 rounded-full text-gray-400 cursor-not-allowed"
+              : "rounded-full hover:bg-gray-50 p-2 text-red-600"
+          }
+        >
+          <MinusIcon class="fill-current h-5 w-5" />
         </button>
       </div>
     </li>
   );
 }
 
-// TODO: add functionality for plus and minus icons
 // TODO: change the ColorTypeForms to display or not display depending on a button click

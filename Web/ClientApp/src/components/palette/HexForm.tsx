@@ -1,9 +1,8 @@
 import ColorInputSection from "../general/form/ColorInputSection";
 import ColorSelectSection from "../general/form/ColorSelectSection";
-import { ColorFormProps } from "./ColorItem";
+import { ColorFormProps } from "./ColorFormDisplayContainer";
 
 export default function HexForm(props: ColorFormProps) {
-
   return (
     <div title={props.value} className="p-2 bg-white rounded-sm w-60">
       <ColorInputSection
