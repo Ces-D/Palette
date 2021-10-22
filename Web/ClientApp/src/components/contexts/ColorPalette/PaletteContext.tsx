@@ -6,7 +6,7 @@ import { ColorPaletteActionType, ColorPaletteStateType } from "./types";
 
 const INITIAL_COLOR_PALETTE_STATE: ColorPaletteStateType = {
   colors: [generateDefaultColor()],
-  palette: uuidv4(),
+  paletteId: uuidv4(),
 };
 
 /**
@@ -17,7 +17,7 @@ const INITIAL_COLOR_PALETTE_STATE: ColorPaletteStateType = {
  */
 const mainReducer = (state: ColorPaletteStateType, action: ColorPaletteActionType) => ({
   colors: colorReducer(state.colors, action),
-  palette: paletteReducer(state.palette, action),
+  paletteId: paletteReducer(state.paletteId, action), // As complexity grows the variable name may change
 });
 
 export const PaletteContext = createContext<{

@@ -1,15 +1,27 @@
 import { useState, useEffect } from "react";
+import { Hsv } from "../contexts/ColorPalette/types";
 import ColorInputSection from "../general/form/ColorInputSection";
 import ColorSelectSection from "../general/form/ColorSelectSection";
-import { ColorFormProps } from "./ColorFormDisplayContainer";
+import { ColorValueProps } from "../hooks/useColorGenerator";
+import { BaseColorFormProps } from "./ColorFormDisplayContainer";
 
-export default function HsvForm(props: ColorFormProps) {
-  const [hue, setHue] = useState(0);
-  const [saturation, setSaturation] = useState(0);
-  const [value, setValue] = useState(0);
+type Props = Hsv &
+  BaseColorFormProps & {
+    colorHandler: ColorValueProps<Hsv>;
+  };
+
+export default function HsvForm(props: Props) {
+  const [hue, setHue] = useState(props.hue);
+  const [saturation, setSaturation] = useState(props.saturation);
+  const [value, setValue] = useState(props.hValue);
 
   useEffect(() => {
-    props.color.setColorValue(`hsv(${hue}, ${saturation}%, ${value}%)`);
+    props.colorHandler.setColorValue({
+      color: `hsv(${hue}, ${saturation}%, ${value}%)`,
+      hue: hue,
+      saturation: saturation,
+      hValue: value,
+    });
   }, [hue, saturation, value]);
 
   return (

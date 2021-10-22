@@ -1,29 +1,19 @@
 import { useState, useContext } from "react";
-import { Color } from "../hooks/useColorGenerator";
-import LockOpenClosed from "../general/icons/LockOpenIcon";
+import LockOpenIcon from "../general/icons/LockOpenIcon";
 import LockClosedIcon from "../general/icons/LockClosedIcon";
 import MinusIcon from "../general/icons/MinusIcon";
 import ColorFormDisplayContainer from "./ColorFormDisplayContainer";
 import { PaletteContext } from "../contexts/ColorPalette/PaletteContext";
+import { Color } from "../contexts/ColorPalette/types";
 
 export default function ColorItem(props: Color) {
   const { dispatch } = useContext(PaletteContext);
   const [lock, setLocked] = useState(false);
+  console.log(props);
 
   return (
-    <li className="flex-grow h-96" style={{ backgroundColor: props.rgb }}>
+    <li className="flex-grow h-96" style={{ backgroundColor: props.rgb.color }}>
       <div className="flex flex-col justify-around items-center p-2 h-full">
-        <ColorFormDisplayContainer {...props} />
-        <button
-          className="rounded-full hover:bg-gray-50 p-2 text-red-600"
-          onClick={() => setLocked(!lock)}
-        >
-          {!lock ? (
-            <LockOpenClosed class="fill-current h-5 w-5" />
-          ) : (
-            <LockClosedIcon class="fill-current h-5 w-5" />
-          )}
-        </button>
         <button
           onClick={() => {
             !lock && dispatch({ type: "remove-color", payload: { colorId: props.id } });
@@ -36,9 +26,18 @@ export default function ColorItem(props: Color) {
         >
           <MinusIcon class="fill-current h-5 w-5" />
         </button>
+        <button
+          className="rounded-full hover:bg-gray-50 p-2 text-red-600"
+          onClick={() => setLocked(!lock)}
+        >
+          {!lock ? (
+            <LockOpenIcon class="fill-current h-5 w-5" />
+          ) : (
+            <LockClosedIcon class="fill-current h-5 w-5" />
+          )}
+        </button>
+        <ColorFormDisplayContainer {...props} />
       </div>
     </li>
   );
 }
-
-// TODO: change the ColorTypeForms to display or not display depending on a button click

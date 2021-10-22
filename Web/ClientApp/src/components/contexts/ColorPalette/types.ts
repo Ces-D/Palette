@@ -1,16 +1,34 @@
-export type ColorPaletteStateType = {
-  colors: Color[];
-  palette: string;
+export type Rgb = {
+  color: string;
+  red: number;
+  green: number;
+  blue: number;
 };
 
-export type ColorPaletteActionType = ColorAction | PaletteAction;
+export type Hex = {
+  color: string;
+};
+
+export type Hsv = {
+  color: string;
+  hue: number;
+  saturation: number;
+  hValue: number;
+};
 
 export type Color = {
   id: string;
-  rgb: string;
-  hex: string;
-  hsv: string;
+  rgb: Rgb;
+  hex: Hex;
+  hsv: Hsv;
 };
+
+export type ColorPaletteStateType = {
+  colors: Color[];
+  paletteId: string;
+};
+
+export type ColorPaletteActionType = ColorAction | PaletteAction;
 
 export type ColorAction =
   | { type: "add-color" }

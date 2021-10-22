@@ -1,12 +1,34 @@
-import { Color, ColorPaletteActionType } from "./types";
+import { Color, ColorPaletteActionType, Rgb, Hex, Hsv } from "./types";
 import { v4 as uuidv4 } from "uuid";
+
+export const generateDefaultRgb = (): Rgb => {
+  return {
+    color: "rgb(255, 255, 255)",
+    red: 255,
+    green: 255,
+    blue: 255,
+  };
+};
+
+export const generateDefaultHex = (): Hex => {
+  return { color: "#ffffff" };
+};
+
+export const generateDefaultHsv = (): Hsv => {
+  return {
+    color: "hsv(0, 0, 100%)",
+    hue: 0,
+    saturation: 0,
+    hValue: 100,
+  };
+};
 
 export const generateDefaultColor = (): Color => {
   return {
     id: uuidv4(),
-    hex: "#000000",
-    hsv: "hsv(0, 0%, 0%)",
-    rgb: "rgb(0, 0, 0)",
+    hex: generateDefaultHex(),
+    hsv: generateDefaultHsv(),
+    rgb: generateDefaultRgb(),
   };
 };
 
@@ -31,3 +53,6 @@ export default function colorReducer(colors: Color[], action: ColorPaletteAction
     }
   }
 }
+
+// TODO: change the color model to replicate the api color model
+// TODO: update the reducers to implement that new model

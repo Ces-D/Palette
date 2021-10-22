@@ -1,21 +1,16 @@
-import { useState, SetStateAction, Dispatch } from "react";
+import { useState, SetStateAction, Dispatch, useEffect, useContext } from "react";
+import { PaletteContext } from "../contexts/ColorPalette/PaletteContext";
+import { Color, Hex, Hsv, Rgb } from "../contexts/ColorPalette/types";
 
-export type ColorValueProps = {
-  colorValue: string;
-  setColorValue: Dispatch<SetStateAction<string>>;
-};
-
-export type Color = {
-  id: string;
-  rgb: string;
-  hex: string;
-  hsv: string;
-};
+export type ColorValueProps<T> = {
+  setColorValue: Dispatch<SetStateAction<T>>; 
+}; 
 
 export default function useColorGenerator(paletteColor: Color) {
-  const [rgb, setRgb] = useState<string>(paletteColor.rgb);
-  const [hsv, setHsv] = useState<string>(paletteColor.hsv);
-  const [hex, setHex] = useState<string>(paletteColor.hex);
+  const { dispatch } = useContext(PaletteContext);
+  const [rgb, setRgb] = useState<Rgb>(paletteColor.rgb);
+  const [hsv, setHsv] = useState<Hsv>(paletteColor.hsv);
+  const [hex, setHex] = useState<Hex>(paletteColor.hex);
 
   const color: Color = {
     id: paletteColor.id,
@@ -24,7 +19,9 @@ export default function useColorGenerator(paletteColor: Color) {
     hex: hex,
   };
 
-  //TODO: add useMemo to conversion between colorTypes
+  useEffect(() => {
+    dispatch({ type: "update-color", payload: { color: color, colorId: color.id } });
+  }, [hex, rgb, hsv]);
 
-  return { hex, setHex, rgb, setRgb, hsv, setHsv, color };
+  return { hex, setHex, rgb, setRgb, hsv, setHsv };
 }

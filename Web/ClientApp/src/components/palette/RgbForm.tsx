@@ -1,21 +1,31 @@
 import { useEffect, useState } from "react";
+import { Rgb } from "../contexts/ColorPalette/types";
 import ColorInputSection from "../general/form/ColorInputSection";
 import ColorSelectSection from "../general/form/ColorSelectSection";
-import { ColorFormProps } from "./ColorFormDisplayContainer";
+import { ColorValueProps } from "../hooks/useColorGenerator";
+import { BaseColorFormProps } from "./ColorFormDisplayContainer";
 
-export default function RgbForm(props: ColorFormProps) {
-  const [red, setRed] = useState(0);
-  const [green, setGreen] = useState(0);
-  const [blue, setBlue] = useState(0);
+export type Props = Rgb &
+  BaseColorFormProps & {
+    colorHandler: ColorValueProps<Rgb>;
+  };
+
+export default function RgbForm(props: Props) {
+  const [red, setRed] = useState(props.red);
+  const [green, setGreen] = useState(props.green);
+  const [blue, setBlue] = useState(props.blue);
 
   useEffect(() => {
-    props.color.setColorValue(`rgb(${red}, ${green}, ${blue})`);
+    props.colorHandler.setColorValue({
+      color: `rgb(${red}, ${green}, ${blue})`,
+      red: red,
+      green: green,
+      blue: blue,
+    });
   }, [red, green, blue]);
 
-  // TODO: consider creating a ColorFormContainer for the parent div here
-
   return (
-    <div title={props.value} className="p-2 bg-white rounded-sm w-60">
+    <div title={props.value} className="p-2 bg-white rounded-sm w-full sm:w-64">
       <ColorInputSection
         title="Red"
         max={255}

@@ -7,6 +7,8 @@ import PlusIcon from "../general/icons/PlusIcon";
 export default function Home() {
   const { state, dispatch } = useContext(PaletteContext);
 
+  // console.log(state);
+
   return (
     <Container>
       <ul className="flex flex-col sm:flex-row relative">

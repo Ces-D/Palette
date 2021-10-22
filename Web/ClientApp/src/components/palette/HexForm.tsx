@@ -1,8 +1,22 @@
+import { useState, useEffect } from "react";
+import { Hex } from "../contexts/ColorPalette/types";
 import ColorInputSection from "../general/form/ColorInputSection";
 import ColorSelectSection from "../general/form/ColorSelectSection";
-import { ColorFormProps } from "./ColorFormDisplayContainer";
+import { ColorValueProps } from "../hooks/useColorGenerator";
+import { BaseColorFormProps } from "./ColorFormDisplayContainer";
 
-export default function HexForm(props: ColorFormProps) {
+type Props = Hex &
+  BaseColorFormProps & {
+    colorHandler: ColorValueProps<Hex>;
+  };
+
+export default function HexForm(props: Props) {
+  const [hex, setHex] = useState(props.color);
+
+  useEffect(() => {
+    props.colorHandler.setColorValue({ color: hex });
+  });
+
   return (
     <div title={props.value} className="p-2 bg-white rounded-sm w-60">
       <ColorInputSection
@@ -12,8 +26,8 @@ export default function HexForm(props: ColorFormProps) {
         inputStyleClass="border"
         titleWidthClass="w-1/4"
         inputWidthClass="w-3/4"
-        value={props.color.colorValue}
-        onChangeHandler={(e) => props.color.setColorValue(e.target.value)}
+        value={hex}
+        onChangeHandler={(e) => setHex(e.target.value)}
       />
       <ColorSelectSection
         selected={props.selectSection.selected}
