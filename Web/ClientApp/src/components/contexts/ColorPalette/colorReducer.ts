@@ -53,6 +53,3 @@ export default function colorReducer(colors: Color[], action: ColorPaletteAction
     }
   }
 }
-
-// TODO: change the color model to replicate the api color model
-// TODO: update the reducers to implement that new model

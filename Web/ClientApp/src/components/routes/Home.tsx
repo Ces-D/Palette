@@ -7,8 +7,6 @@ import PlusIcon from "../general/icons/PlusIcon";
 export default function Home() {
   const { state, dispatch } = useContext(PaletteContext);
 
-  // console.log(state);
-
   return (
     <Container>
       <ul className="flex flex-col sm:flex-row relative">
@@ -19,7 +17,7 @@ export default function Home() {
           onClick={() => {
             dispatch({ type: "add-color" });
           }}
-          className="absolute top-1/2 right-5 rounded-full hover:bg-gray-50 p-2"
+          className="absolute bottom-3 sm:bottom-1/2 right-5 rounded-full bg-gray-50 hover:bg-gray-600"
         >
           <PlusIcon class="fill-current text-red-600 h-5 w-5" />
         </button>
@@ -27,3 +25,5 @@ export default function Home() {
     </Container>
   );
 }
+
+//TODO: implement the color harmony features
