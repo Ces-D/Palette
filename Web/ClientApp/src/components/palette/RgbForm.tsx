@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Rgb } from "../contexts/ColorPalette/types";
+import { Rgb } from "../../store/Color/colorSlice";
 import ColorInputSection from "../general/form/ColorInputSection";
 import ColorSelectSection from "../general/form/ColorSelectSection";
 import { ColorValueProps } from "../hooks/useColorGenerator";

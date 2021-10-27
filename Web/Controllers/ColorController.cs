@@ -23,9 +23,18 @@ namespace Web.Controllers
             _logger = logger;
         }
 
+        // GET api/<ColorController>
+        [HttpGet]
+        public Color GenerateRandomColor()
+        {
+            var randomRgbValues = new Random();
+            var rgbString = $"rgb({randomRgbValues.Next(0, 255)}, {randomRgbValues.Next(0, 255)}, {randomRgbValues.Next(0, 255)})";
+            return ColorBuilder.BuildFromRgb(rgbString);
+        }
+
         // POST api/<ColorController>
         [HttpPost]
-        public Color GenerateColor([FromBody] GenerateColorModel generateColorModel)
+        public Color GenerateCompleteColorFromString([FromBody] GenerateColorModel generateColorModel)
         {
             Color color = generateColorModel.ColorType switch
             {
@@ -40,3 +49,4 @@ namespace Web.Controllers
     }
 }
 
+// TODO: When you start working on creating profiles, set Palette api endpoints according to the paletteModel written in ClientApp/src/store/Palette

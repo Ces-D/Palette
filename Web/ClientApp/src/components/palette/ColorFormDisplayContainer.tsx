@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Color } from "../contexts/ColorPalette/types";
+import { Color, ColorType } from "../../store/Color/colorSlice";
 import { ColorSelectSectionProps } from "../general/form/ColorSelectSection";
 import Switch from "../general/Switch";
 import useColorGenerator from "../hooks/useColorGenerator";
@@ -7,15 +7,14 @@ import HexForm from "./HexForm";
 import HsvForm from "./HsvForm";
 import RgbForm from "./RgbForm";
 
-export type ColorTypes = "rgb" | "hex" | "hsv";
 export type BaseColorFormProps = {
-  value: ColorTypes;
+  value: ColorType;
   selectSection: ColorSelectSectionProps;
 };
 
 export default function ColorFormDisplayContainer(props: Color) {
   const [displayForm, setDisplayForm] = useState(false);
-  const [colorType, setColorType] = useState<ColorTypes | string>("rgb");
+  const [colorType, setColorType] = useState<ColorType | string>("rgb");
   const { hex, setHex, rgb, setRgb, hsv, setHsv } = useColorGenerator(props);
 
   const selectSection: ColorSelectSectionProps = {
@@ -62,4 +61,4 @@ export default function ColorFormDisplayContainer(props: Color) {
 }
 
 // TODO: style for mobile and other styling to make pretty
-// TODO: could add a change color reducer action that calls api and sets other color values
+// TODO: incorporate the new state manager and test for any errors

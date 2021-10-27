@@ -43,3 +43,5 @@ export default function ColorItem(props: Color) {
     </li>
   );
 }
+
+//TODO: switch from requesting the colors through the paletteContext to requesting them directly through the new ColorsReducer 

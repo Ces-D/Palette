@@ -25,3 +25,5 @@ export default function useColorGenerator(paletteColor: Color) {
 
     return { hex, setHex, rgb, setRgb, hsv, setHsv };
 }
+
+// TODO: incorporate the actions into this hook
