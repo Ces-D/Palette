@@ -1,21 +1,22 @@
-import { useContext } from "react";
 import Container from "../general/Container";
 import ColorItem from "../palette/ColorItem";
-import { PaletteContext } from "../contexts/ColorPalette/PaletteContext";
 import PlusIcon from "../general/icons/PlusIcon";
+import { useAppSelector } from "../../store/hooks";
+import usePaletteController from "../hooks/usePaletteController";
 
 export default function Home() {
-  const { state, dispatch } = useContext(PaletteContext);
+  const colors = useAppSelector((state) => state.colors);
+  const { addNewColor } = usePaletteController();
 
   return (
     <Container>
       <ul className="flex flex-col sm:flex-row relative">
-        {state.colors.map((paletteColor) => (
+        {colors.map((paletteColor) => (
           <ColorItem key={paletteColor.id} {...paletteColor} />
         ))}
         <button
           onClick={() => {
-            dispatch({ type: "add-color" });
+            addNewColor();
           }}
           className="absolute bottom-3 sm:bottom-1/2 right-5 rounded-full bg-gray-50 hover:bg-gray-600"
         >

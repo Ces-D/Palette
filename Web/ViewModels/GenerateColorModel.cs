@@ -16,5 +16,11 @@ namespace Web.ViewModels
         /// <![CDATA["rgb","hex","hsv"]]>
         /// </summary>
         public string ColorType { get; set; }
+        ///<summary>
+        /// The id of of the color whose values are being generated.
+        /// This should only be populated if we are not generating a random color and should be provided so that
+        /// the color item can be identified client side.
+        ///</summary>
+        public string ColorID { get; set; }
     }
 }

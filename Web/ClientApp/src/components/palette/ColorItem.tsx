@@ -1,13 +1,13 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import LockOpenIcon from "../general/icons/LockOpenIcon";
 import LockClosedIcon from "../general/icons/LockClosedIcon";
 import ColorFormDisplayContainer from "./ColorFormDisplayContainer";
-import { PaletteContext } from "../contexts/ColorPalette/PaletteContext";
-import { Color } from "../contexts/ColorPalette/types";
+import { Color } from "../../store/Color/colorSlice";
 import TrashIcon from "../general/icons/TrashIcon";
+import usePaletteController from "../hooks/usePaletteController";
 
 export default function ColorItem(props: Color) {
-  const { dispatch } = useContext(PaletteContext);
+  const { removeExistingColor } = usePaletteController();
   const [lock, setLocked] = useState(false);
 
   return (
@@ -18,7 +18,7 @@ export default function ColorItem(props: Color) {
       <div className="flex flex-col justify-around items-center p-2 h-full text-red-200">
         <button
           onClick={() => {
-            !lock && dispatch({ type: "remove-color", payload: { colorId: props.id } });
+            !lock && removeExistingColor(props.id);
           }}
           className={
             lock
@@ -43,5 +43,3 @@ export default function ColorItem(props: Color) {
     </li>
   );
 }
-
-//TODO: switch from requesting the colors through the paletteContext to requesting them directly through the new ColorsReducer 

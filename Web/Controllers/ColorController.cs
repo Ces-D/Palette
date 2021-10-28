@@ -38,9 +38,9 @@ namespace Web.Controllers
         {
             Color color = generateColorModel.ColorType switch
             {
-                ("rgb") => ColorBuilder.BuildFromRgb(generateColorModel.ColorValue),
-                ("hsv") => ColorBuilder.BuildFromHsv(generateColorModel.ColorValue),
-                ("hex") => ColorBuilder.BuildFromHex(generateColorModel.ColorValue),
+                ("rgb") => ColorBuilder.BuildFromRgb(generateColorModel.ColorValue, generateColorModel.ColorID),
+                ("hsv") => ColorBuilder.BuildFromHsv(generateColorModel.ColorValue, generateColorModel.ColorID),
+                ("hex") => ColorBuilder.BuildFromHex(generateColorModel.ColorValue, generateColorModel.ColorID),
                 _ => throw new PostBodyException(generateColorModel.ColorValue, null),
             };
             return color;

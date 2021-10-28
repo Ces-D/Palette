@@ -15,7 +15,10 @@ export type BaseColorFormProps = {
 export default function ColorFormDisplayContainer(props: Color) {
   const [displayForm, setDisplayForm] = useState(false);
   const [colorType, setColorType] = useState<ColorType | string>("rgb");
-  const { hex, setHex, rgb, setRgb, hsv, setHsv } = useColorGenerator(props);
+  const { hex, setHex, rgb, setRgb, hsv, setHsv } = useColorGenerator({
+    ...props,
+    value: colorType as ColorType,
+  });
 
   const selectSection: ColorSelectSectionProps = {
     selected: colorType,
@@ -60,5 +63,4 @@ export default function ColorFormDisplayContainer(props: Color) {
   );
 }
 
-// TODO: style for mobile and other styling to make pretty
 // TODO: incorporate the new state manager and test for any errors

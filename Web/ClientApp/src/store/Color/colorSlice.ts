@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 /**
@@ -36,30 +36,24 @@ export type ColorType = "rgb" | "hex" | "hsv";
 export interface ColorControllerGenerateColorModel {
   ColorType: ColorType;
   ColorValue: string;
+  ColorId: string;
 }
 
 export interface Color {
-  id: string | null;
-  rgb: Rgb | null;
-  hex: Hex | null;
-  hsv: Hsv | null;
-  status: "pending" | "fulfilled" | "rejected";
+  id: string;
+  rgb: Rgb;
+  hex: Hex;
+  hsv: Hsv;
 }
 
-const initialColorState: Color = {
-  id: null,
-  status: "pending",
-  rgb: null,
-  hex: null,
-  hsv: null,
-};
+const initialColorState: Color[] = [];
 
 /**
  * @method POST
  * @summary This fetches a new color model calculated from a specific color type string
  * @see  {ColorControllerGenerate}
  */
-export const fetchColorModel = createAsyncThunk(
+export const pushColorModel = createAsyncThunk(
   "color/fetchColorModel",
   async (requestBody: ColorControllerGenerateColorModel) => {
     const response = await axios.post("api/Color", requestBody);
@@ -71,7 +65,7 @@ export const fetchColorModel = createAsyncThunk(
  * @method GET
  * @summary This fetches a new random color model
  */
-export const fetchRandomColorModel = createAsyncThunk(
+export const pushRandomColorModel = createAsyncThunk(
   "color/fetchRandomColorModel",
   async () => {
     const response = await axios.get("api/Color");
@@ -82,30 +76,23 @@ export const fetchRandomColorModel = createAsyncThunk(
 const colorSlice = createSlice({
   name: "color",
   initialState: initialColorState,
-  reducers: {},
+  reducers: {
+    removeColorModel(state, action: PayloadAction<{ id: string }>) {
+      state.filter((color) => color.id !== action.payload.id);
+    },
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchColorModel.pending, (state, action) => {
-        state.status = "pending";
-      })
-      .addCase(fetchColorModel.fulfilled, (state, action) => {
+      .addCase(pushColorModel.fulfilled, (state, action) => {
         const color = action.payload;
-        state = { ...color, status: "fulfilled" };
+        state.push(color);
       })
-      .addCase(fetchColorModel.rejected, (state, action) => {
-        state.status = "rejected";
-      })
-      .addCase(fetchRandomColorModel.pending, (state, action) => {
-        state.status = "pending";
-      })
-      .addCase(fetchColorModel.fulfilled, (state, action) => {
+      .addCase(pushRandomColorModel.fulfilled, (state, action) => {
         const color = action.payload;
-        state = { ...color, status: "fulfilled" };
-      })
-      .addCase(fetchRandomColorModel.rejected, (state, action) => {
-        state.status = "rejected";
+        state.push(color);
       });
   },
 });
 
+export const { removeColorModel } = colorSlice.actions;
 export default colorSlice.reducer;
