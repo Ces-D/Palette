@@ -3,14 +3,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface Palette {
   id: string | null;
   author: string | "anonymous";
-  colorIds: string[];
   error: { status: boolean; message: string | null };
 }
 
 const initialPaletteState: Palette = {
   id: null,
   author: "anonymous",
-  colorIds: [],
   error: { status: false, message: null },
 };
 
@@ -18,12 +16,6 @@ const paletteSlice = createSlice({
   name: "palette",
   initialState: initialPaletteState,
   reducers: {
-    addColor(state, action: PayloadAction<{ colorId: string }>) {
-      state.colorIds.push(action.payload.colorId);
-    },
-    removeColor(state, action: PayloadAction<{ colorId: string }>) {
-      state.colorIds.filter((colorId) => colorId !== action.payload.colorId);
-    },
     changeAuthor(state, action: PayloadAction<{ author: string }>) {
       state.author = action.payload.author;
     },
@@ -34,6 +26,7 @@ const paletteSlice = createSlice({
   },
 });
 
-export const { addColor, removeColor, changeAuthor, setColorError } =
-  paletteSlice.actions;
+export const { changeAuthor, setColorError } = paletteSlice.actions;
 export default paletteSlice.reducer;
+
+// TODO: Add a method for adding the colors as a passed in parameters (Color[] colors) ; requires an api endpoint

@@ -5,7 +5,7 @@ import {
   Hex,
   Hsv,
   Rgb,
-  pushColorModel,
+  fetchColorModel,
 } from "../../store/Color/colorSlice";
 import { useAppDispatch } from "../../store/hooks";
 import { setColorError } from "../../store/Palette/paletteSlice";
@@ -15,8 +15,15 @@ export type ColorValueProps<T> = {
 };
 
 type Props = Color & {
-  value: ColorType;
+  value: ColorType | string;
 };
+
+/**
+ * @summary Helper hook for generating the colors and the conversion between the various color types
+ * whenever changes are made.
+ * @param {Color} paletteColor
+ * @returns
+ */
 
 export default function useColorGenerator(paletteColor: Props) {
   const dispatch = useAppDispatch();
@@ -28,7 +35,7 @@ export default function useColorGenerator(paletteColor: Props) {
     switch (paletteColor.value) {
       case "rgb":
         dispatch(
-          pushColorModel({
+          fetchColorModel({
             ColorType: paletteColor.value,
             ColorValue: paletteColor.rgb.color,
             ColorId: paletteColor.id,
@@ -37,7 +44,7 @@ export default function useColorGenerator(paletteColor: Props) {
         break;
       case "hex":
         dispatch(
-          pushColorModel({
+          fetchColorModel({
             ColorType: paletteColor.value,
             ColorValue: paletteColor.hex.color,
             ColorId: paletteColor.id,
@@ -46,7 +53,7 @@ export default function useColorGenerator(paletteColor: Props) {
         break;
       case "hsv":
         dispatch(
-          pushColorModel({
+          fetchColorModel({
             ColorType: paletteColor.value,
             ColorValue: paletteColor.hsv.color,
             ColorId: paletteColor.id,

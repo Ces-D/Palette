@@ -24,7 +24,8 @@
     "noUnusedParameters": true,
     "incremental": true,
     "noFallthroughCasesInSwitch": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "outDir": "dist"
   },
   "include": [
     "src/**/*"

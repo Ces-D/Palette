@@ -53,10 +53,11 @@ const initialColorState: Color[] = [];
  * @summary This fetches a new color model calculated from a specific color type string
  * @see  {ColorControllerGenerate}
  */
-export const pushColorModel = createAsyncThunk(
+export const fetchColorModel = createAsyncThunk(
   "color/fetchColorModel",
   async (requestBody: ColorControllerGenerateColorModel) => {
     const response = await axios.post("api/Color", requestBody);
+    console.log("FETCH COLOR MODEL: ", response.data);
     return response.data;
   }
 );
@@ -65,10 +66,11 @@ export const pushColorModel = createAsyncThunk(
  * @method GET
  * @summary This fetches a new random color model
  */
-export const pushRandomColorModel = createAsyncThunk(
+export const fetchRandomColorModel = createAsyncThunk(
   "color/fetchRandomColorModel",
   async () => {
     const response = await axios.get("api/Color");
+    console.log("FETCH RANDOM COLOR MODEL: ", response.data);
     return response.data;
   }
 );
@@ -77,22 +79,37 @@ const colorSlice = createSlice({
   name: "color",
   initialState: initialColorState,
   reducers: {
+    updateExistingColorModel(
+      state,
+      action: PayloadAction<{ id: string; colorUpdates: Color }>
+    ) {
+      const targetColorIndex = state.findIndex((color) => {
+        color.id === action.payload.id;
+      });
+      state[targetColorIndex] = {
+        ...action.payload.colorUpdates,
+        id: action.payload.id,
+      };
+    },
     removeColorModel(state, action: PayloadAction<{ id: string }>) {
-      state.filter((color) => color.id !== action.payload.id);
+      state = state.filter((color) => color.id !== action.payload.id);
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(pushColorModel.fulfilled, (state, action) => {
-        const color = action.payload;
-        state.push(color);
+      .addCase(fetchColorModel.fulfilled, (state, action) => {
+        console.log(state.length);
+        console.log("CASE FOR FETCH COLOR: ", action.payload);
+        // console.log(action.meta)
       })
-      .addCase(pushRandomColorModel.fulfilled, (state, action) => {
-        const color = action.payload;
-        state.push(color);
+      .addCase(fetchRandomColorModel.fulfilled, (state, action) => {
+        state.push(action.payload);
+        console.log(state.length);
       });
   },
 });
 
-export const { removeColorModel } = colorSlice.actions;
+export const { removeColorModel, updateExistingColorModel } = colorSlice.actions;
 export default colorSlice.reducer;
+
+// TODO: the pushColorModel only handles the insert into state but doesnt take into account that the color may already exist and so only needs to the updated

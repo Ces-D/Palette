@@ -2,12 +2,12 @@ import { useState } from "react";
 import LockOpenIcon from "../general/icons/LockOpenIcon";
 import LockClosedIcon from "../general/icons/LockClosedIcon";
 import ColorFormDisplayContainer from "./ColorFormDisplayContainer";
-import { Color } from "../../store/Color/colorSlice";
+import { Color, removeColorModel } from "../../store/Color/colorSlice";
 import TrashIcon from "../general/icons/TrashIcon";
-import usePaletteController from "../hooks/usePaletteController";
+import { useAppDispatch } from "../../store/hooks";
 
 export default function ColorItem(props: Color) {
-  const { removeExistingColor } = usePaletteController();
+  const dispatch = useAppDispatch();
   const [lock, setLocked] = useState(false);
 
   return (
@@ -18,7 +18,7 @@ export default function ColorItem(props: Color) {
       <div className="flex flex-col justify-around items-center p-2 h-full text-red-200">
         <button
           onClick={() => {
-            !lock && removeExistingColor(props.id);
+            !lock && dispatch(removeColorModel({ id: props.id }));
           }}
           className={
             lock

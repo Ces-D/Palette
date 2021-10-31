@@ -1,8 +1,8 @@
 import { Route } from "react-router";
 import { Provider } from "react-redux";
-import Layout from "../components/Layout";
-import Home from "../components/routes/Home";
-import { appStore } from "../store/configureStore";
+import Layout from "./components/general/Layout";
+import Home from "./components/routes/Home";
+import { appStore } from "./store/configureStore";
 import "./custom.css";
 
 export default function App() {

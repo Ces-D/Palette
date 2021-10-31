@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction } from "react";
-import { ColorTypes } from "../../palette/ColorFormDisplayContainer";
+import { ColorType } from "../../../store/Color/colorSlice";
 
 export type ColorSelectSectionProps = {
   setColorType: Dispatch<SetStateAction<string>>;
-  selected: ColorTypes | string;
+  selected: ColorType | string;
 };
 
 export default function ColorSelectSection(props: ColorSelectSectionProps) {

@@ -17,7 +17,7 @@ export default function ColorFormDisplayContainer(props: Color) {
   const [colorType, setColorType] = useState<ColorType | string>("rgb");
   const { hex, setHex, rgb, setRgb, hsv, setHsv } = useColorGenerator({
     ...props,
-    value: colorType as ColorType,
+    value: colorType,
   });
 
   const selectSection: ColorSelectSectionProps = {
@@ -62,5 +62,3 @@ export default function ColorFormDisplayContainer(props: Color) {
     </>
   );
 }
-
-// TODO: incorporate the new state manager and test for any errors
