@@ -1,29 +1,32 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Color, ColorType } from "../../store/Color/colorSlice";
-import { ColorSelectSectionProps } from "../general/form/ColorSelectSection";
 import Switch from "../general/Switch";
 import useColorGenerator from "../hooks/useColorGenerator";
-import HexForm from "./HexForm";
+// import HexForm from "./HexForm";
 import HsvForm from "./HsvForm";
 import RgbForm from "./RgbForm";
 
 export type BaseColorFormProps = {
   value: ColorType;
-  selectSection: ColorSelectSectionProps;
+  baseSelectSection: BaseSelectSection;
+};
+type BaseSelectSection = {
+  activeColorType: ColorType | string;
+  setActiveColorType: Dispatch<SetStateAction<ColorType | string>>;
 };
 
 export default function ColorFormDisplayContainer(props: Color) {
   const [displayForm, setDisplayForm] = useState(false);
   const [colorType, setColorType] = useState<ColorType | string>("rgb");
-  const { hex, setHex, rgb, setRgb, hsv, setHsv } = useColorGenerator({
+  const { rgbFormGenerator, hsvFormGenerator } = useColorGenerator({
     ...props,
     value: colorType,
   });
 
-  const selectSection: ColorSelectSectionProps = {
-    selected: colorType,
-    setColorType: setColorType,
+  const selectSection: BaseSelectSection = {
+    activeColorType: colorType,
+    setActiveColorType: setColorType,
   };
 
   return (
@@ -35,32 +38,28 @@ export default function ColorFormDisplayContainer(props: Color) {
             <RgbForm
               key={uuidv4()}
               value="rgb"
-              selectSection={selectSection}
-              {...props.rgb}
-              colorHandler={{ setColorValue: setRgb }}
+              baseSelectSection={selectSection}
+              {...rgbFormGenerator}
             />,
-            <HexForm
-              key={uuidv4()}
-              value="hex"
-              selectSection={selectSection}
-              {...props.hex}
-              colorHandler={{ setColorValue: setHex }}
-            />,
+            // <HexForm
+            //   key={uuidv4()}
+            //   value="hex"
+            //   baseSelectSection={selectSection}
+            //   {...hexFormGenerator}
+            // />,
             <HsvForm
               key={uuidv4()}
               value="hsv"
-              selectSection={selectSection}
-              {...props.hsv}
-              colorHandler={{ setColorValue: setHsv }}
+              baseSelectSection={selectSection}
+              {...hsvFormGenerator}
             />,
           ]}
         />
       )}
       <button className="w-full text-center" onClick={() => setDisplayForm(!displayForm)}>
         <h2 className="text-2xl">
-          {(colorType === "rgb" && rgb.color) ||
-            (colorType === "hex" && hex.color) ||
-            (colorType === "hsv" && hsv.color)}
+          {(colorType === "rgb" && rgbFormGenerator.color.color) ||
+            (colorType === "hsv" && hsvFormGenerator.color.color)}
         </h2>
       </button>
     </>

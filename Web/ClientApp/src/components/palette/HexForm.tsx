@@ -1,24 +1,19 @@
 import { useState, useEffect } from "react";
 import { Hex } from "../../store/Color/colorSlice";
 import ColorInputSection from "../general/form/ColorInputSection";
-import ColorSelectSection from "../general/form/ColorSelectSection";
-import { ColorValueProps } from "../hooks/useColorGenerator";
-import { BaseColorFormProps } from "./ColorFormDisplayContainer";
+import { ColorForm } from "../hooks/useColorGenerator";
 
-type Props = Hex &
-  BaseColorFormProps & {
-    colorHandler: ColorValueProps<Hex>;
-  };
+type Props = ColorForm<Hex>;
 
 export default function HexForm(props: Props) {
-  const [hex, setHex] = useState(props.color);
+  const [hex, setHex] = useState(props.color.color);
 
   useEffect(() => {
-    props.colorHandler.setColorValue({ color: hex });
-  });
+    props.setColor({ color: `#${hex}` });
+  }, [hex]); // FIXME: Can never use setState inside of useEffect
 
   return (
-    <div title={props.value} className="p-2 bg-white rounded-sm w-60">
+    <div title="hex" className="p-2 bg-white rounded-sm w-60">
       <ColorInputSection
         nonRangeInputType={"string"}
         maxLength={7}
@@ -28,10 +23,6 @@ export default function HexForm(props: Props) {
         inputWidthClass="w-3/4"
         value={hex}
         onChangeHandler={(e) => setHex(e.target.value)}
-      />
-      <ColorSelectSection
-        selected={props.selectSection.selected}
-        setColorType={props.selectSection.setColorType}
       />
     </div>
   );

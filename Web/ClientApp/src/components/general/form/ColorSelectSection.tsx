@@ -1,9 +1,9 @@
-import { Dispatch, SetStateAction } from "react";
+import { ChangeEvent } from "react";
 import { ColorType } from "../../../store/Color/colorSlice";
 
 export type ColorSelectSectionProps = {
-  setColorType: Dispatch<SetStateAction<string>>;
   selected: ColorType | string;
+  onChangeHandler: (e: ChangeEvent<HTMLSelectElement>) => void;
 };
 
 export default function ColorSelectSection(props: ColorSelectSectionProps) {
@@ -14,7 +14,7 @@ export default function ColorSelectSection(props: ColorSelectSectionProps) {
         name="selectType"
         id="selectType"
         value={props.selected}
-        onChange={(e) => props.setColorType(e.target.value)}
+        onChange={props.onChangeHandler}
       >
         <option value="rgb">RGB</option>
         <option value="hsv">HSV</option>

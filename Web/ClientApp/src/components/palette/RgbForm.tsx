@@ -2,21 +2,18 @@ import { useEffect, useState } from "react";
 import { Rgb } from "../../store/Color/colorSlice";
 import ColorInputSection from "../general/form/ColorInputSection";
 import ColorSelectSection from "../general/form/ColorSelectSection";
-import { ColorValueProps } from "../hooks/useColorGenerator";
+import { ColorForm } from "../hooks/useColorGenerator";
 import { BaseColorFormProps } from "./ColorFormDisplayContainer";
 
-export type Props = Rgb &
-  BaseColorFormProps & {
-    colorHandler: ColorValueProps<Rgb>;
-  };
+export type Props = BaseColorFormProps & ColorForm<Rgb>;
 
 export default function RgbForm(props: Props) {
-  const [red, setRed] = useState(props.red);
-  const [green, setGreen] = useState(props.green);
-  const [blue, setBlue] = useState(props.blue);
+  const [red, setRed] = useState(props.color.red);
+  const [green, setGreen] = useState(props.color.green);
+  const [blue, setBlue] = useState(props.color.blue);
 
   useEffect(() => {
-    props.colorHandler.setColorValue({
+    props.setColor({
       color: `rgb(${red}, ${green}, ${blue})`,
       red: red,
       green: green,
@@ -54,8 +51,11 @@ export default function RgbForm(props: Props) {
         rangeClasses="bg-blue-500 appearance-none w-full h-1 rounded outline-none slider-thumb py-1"
       />
       <ColorSelectSection
-        selected={props.selectSection.selected}
-        setColorType={props.selectSection.setColorType}
+        selected={props.baseSelectSection.activeColorType}
+        onChangeHandler={(e) => {
+          props.fetchModelColorValues();
+          props.baseSelectSection.setActiveColorType(e.target.value);
+        }}
       />
     </div>
   );
