@@ -30,3 +30,4 @@ export const { changeAuthor, setColorError } = paletteSlice.actions;
 export default paletteSlice.reducer;
 
 // TODO: Add a method for adding the colors as a passed in parameters (Color[] colors) ; requires an api endpoint
+// This would be for whenever we want to save a users palette

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { Color, ColorType } from "../../store/Color/colorSlice";
 import { ColorSelectSectionProps } from "../general/form/ColorSelectSection";
 import Switch from "../general/Switch";
@@ -32,18 +33,21 @@ export default function ColorFormDisplayContainer(props: Color) {
           searchValue={colorType}
           children={[
             <RgbForm
+              key={uuidv4()}
               value="rgb"
               selectSection={selectSection}
               {...props.rgb}
               colorHandler={{ setColorValue: setRgb }}
             />,
             <HexForm
+              key={uuidv4()}
               value="hex"
               selectSection={selectSection}
               {...props.hex}
               colorHandler={{ setColorValue: setHex }}
             />,
             <HsvForm
+              key={uuidv4()}
               value="hsv"
               selectSection={selectSection}
               {...props.hsv}
@@ -62,3 +66,5 @@ export default function ColorFormDisplayContainer(props: Color) {
     </>
   );
 }
+
+// TODO: error with the form display. Switch find is not working

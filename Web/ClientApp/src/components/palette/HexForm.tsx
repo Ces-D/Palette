@@ -36,3 +36,4 @@ export default function HexForm(props: Props) {
     </div>
   );
 }
+// TODO: Change this to readonly and always display on the bottom right
