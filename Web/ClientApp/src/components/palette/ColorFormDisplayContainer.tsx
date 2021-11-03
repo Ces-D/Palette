@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Color, ColorType } from "../../store/Color/colorSlice";
+import { ColorType } from "../../store/Color/colorSlice";
 import Switch from "../general/Switch";
-import useColorGenerator from "../hooks/useColorGenerator";
-// import HexForm from "./HexForm";
+import useColorGenerator, { UseColorGeneratorProps } from "../hooks/useColorGenerator";
+// import HexForm from "./HexForm"; // TODO: consider deleting the hexForm
 import HsvForm from "./HsvForm";
 import RgbForm from "./RgbForm";
 
@@ -14,19 +14,24 @@ export type BaseColorFormProps = {
 type BaseSelectSection = {
   activeColorType: ColorType | string;
   setActiveColorType: Dispatch<SetStateAction<ColorType | string>>;
+  hexValue: string;
 };
 
-export default function ColorFormDisplayContainer(props: Color) {
+type Props = Omit<UseColorGeneratorProps, "value">;
+
+export default function ColorFormDisplayContainer(props: Props) {
   const [displayForm, setDisplayForm] = useState(false);
   const [colorType, setColorType] = useState<ColorType | string>("rgb");
-  const { rgbFormGenerator, hsvFormGenerator } = useColorGenerator({
-    ...props,
+  const { rgbFormGenerator, hsvFormGenerator, hexFormGenerator } = useColorGenerator({
+    color: props.color,
     value: colorType,
+    setItemContainerBackgroundColor: props.setItemContainerBackgroundColor,
   });
 
   const selectSection: BaseSelectSection = {
     activeColorType: colorType,
     setActiveColorType: setColorType,
+    hexValue: hexFormGenerator.color.color,
   };
 
   return (
@@ -41,12 +46,6 @@ export default function ColorFormDisplayContainer(props: Color) {
               baseSelectSection={selectSection}
               {...rgbFormGenerator}
             />,
-            // <HexForm
-            //   key={uuidv4()}
-            //   value="hex"
-            //   baseSelectSection={selectSection}
-            //   {...hexFormGenerator}
-            // />,
             <HsvForm
               key={uuidv4()}
               value="hsv"
@@ -65,5 +64,3 @@ export default function ColorFormDisplayContainer(props: Color) {
     </>
   );
 }
-
-// TODO: error with the form display. Switch find is not working

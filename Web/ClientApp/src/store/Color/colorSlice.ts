@@ -104,13 +104,12 @@ const colorSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchColorModel.fulfilled, (state, action) => {
-        // TODO: needs testing
+        // FIXME: This does not work
         const targetColorIndex =
           state.findIndex((color) => {
             color.id === action.payload.id;
           }) + 1;
         console.log("TARGET INDEX: ", targetColorIndex);
-        console.log("STATE ITEMS: ", state[0]);
         console.log("PAYLOAD INDEX: ", action.payload);
         // state[targetColorIndex] = action.payload;
       })

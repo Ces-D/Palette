@@ -15,7 +15,7 @@ export default function Home() {
 
   return (
     <Container>
-      <ul className="flex flex-col sm:flex-row relative">
+      <ul className="flex flex-col md:flex-row relative">
         {colors.map((paletteColor) => (
           <ColorItem key={paletteColor.id} {...paletteColor} />
         ))}
@@ -23,7 +23,7 @@ export default function Home() {
           onClick={() => {
             dispatch(fetchRandomColorModel());
           }}
-          className="absolute bottom-3 sm:bottom-1/2 right-5 rounded-full bg-gray-50 hover:bg-gray-600"
+          className="absolute bottom-3 md:bottom-1/2 right-5 rounded-full bg-gray-50 hover:bg-gray-600"
         >
           <PlusIcon class="fill-current text-red-600 h-5 w-5" />
         </button>

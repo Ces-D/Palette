@@ -15,32 +15,36 @@ export type ColorForm<T> = {
   fetchModelColorValues: () => void;
 };
 
-type Props = Color & {
+export type UseColorGeneratorProps = {
+  color: Color;
   value: ColorType | string;
+  setItemContainerBackgroundColor: Dispatch<SetStateAction<string>>;
 };
 
 /**
  * @summary Helper hook for generating the colors and the conversion between the various color types
- * @param {Color & ColorType} paletteColor Color values and the currently active colorType
+ * @param {Color & ColorType} props Color values and the currently active colorType
  * @returns Three objects each containing methods and state for handling their respective Forms.
- * Design of the hook is related to the <Color>Form Component 
+ * Design of the hook is related to the <Color>Form Component
+ * Maintains many of the prop drilled entities
  */
 
-export default function useColorGenerator(paletteColor: Props) {
+export default function useColorGenerator(props: UseColorGeneratorProps) {
   const dispatch = useAppDispatch();
-  const [rgb, setRgb] = useState<Rgb>(paletteColor.rgb);
-  const [hsv, setHsv] = useState<Hsv>(paletteColor.hsv);
-  const [hex, setHex] = useState<Hex>(paletteColor.hex);
+  const [rgb, setRgb] = useState<Rgb>(props.color.rgb);
+  const [hsv, setHsv] = useState<Hsv>(props.color.hsv);
+  const [hex, setHex] = useState<Hex>(props.color.hex);
 
   const hexFormGenerator: ColorForm<Hex> = {
     color: hex,
-    setColor: setHex,
+    setColor: setHex, // currently never being used
     fetchModelColorValues: () => {
+      // currently never being used
       dispatch(
         fetchColorModel({
           ColorType: "hex",
           ColorValue: hex.color,
-          ColorId: paletteColor.id,
+          ColorId: props.color.id,
         })
       );
     },
@@ -54,7 +58,7 @@ export default function useColorGenerator(paletteColor: Props) {
         fetchColorModel({
           ColorType: "rgb",
           ColorValue: rgb.color,
-          ColorId: paletteColor.id,
+          ColorId: props.color.id,
         })
       );
     },
@@ -68,7 +72,7 @@ export default function useColorGenerator(paletteColor: Props) {
         fetchColorModel({
           ColorType: "hsv",
           ColorValue: hsv.color,
-          ColorId: paletteColor.id,
+          ColorId: props.color.id,
         })
       );
     },

@@ -10,7 +10,7 @@ export default function HexForm(props: Props) {
 
   useEffect(() => {
     props.setColor({ color: `#${hex}` });
-  }, [hex]); // FIXME: Can never use setState inside of useEffect
+  }, [hex]);
 
   return (
     <div title="hex" className="p-2 bg-white rounded-sm w-60">
@@ -27,4 +27,3 @@ export default function HexForm(props: Props) {
     </div>
   );
 }
-// TODO: Change this to readonly and always display on the bottom right
