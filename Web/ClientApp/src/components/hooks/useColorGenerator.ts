@@ -9,7 +9,7 @@ import {
 } from "../../store/Color/colorSlice";
 import { useAppDispatch } from "../../store/hooks";
 
-export type ColorForm<T> = {
+export type ColorFormGenerator<T> = {
   color: T;
   setColor: Dispatch<SetStateAction<T>>;
   fetchModelColorValues: () => void;
@@ -18,7 +18,6 @@ export type ColorForm<T> = {
 export type UseColorGeneratorProps = {
   color: Color;
   value: ColorType | string;
-  setItemContainerBackgroundColor: Dispatch<SetStateAction<string>>;
 };
 
 /**
@@ -35,7 +34,7 @@ export default function useColorGenerator(props: UseColorGeneratorProps) {
   const [hsv, setHsv] = useState<Hsv>(props.color.hsv);
   const [hex, setHex] = useState<Hex>(props.color.hex);
 
-  const hexFormGenerator: ColorForm<Hex> = {
+  const hexFormGenerator: ColorFormGenerator<Hex> = {
     color: hex,
     setColor: setHex, // currently never being used
     fetchModelColorValues: () => {
@@ -50,7 +49,7 @@ export default function useColorGenerator(props: UseColorGeneratorProps) {
     },
   };
 
-  const rgbFormGenerator: ColorForm<Rgb> = {
+  const rgbFormGenerator: ColorFormGenerator<Rgb> = {
     color: rgb,
     setColor: setRgb,
     fetchModelColorValues: () => {
@@ -64,7 +63,7 @@ export default function useColorGenerator(props: UseColorGeneratorProps) {
     },
   };
 
-  const hsvFormGenerator: ColorForm<Hsv> = {
+  const hsvFormGenerator: ColorFormGenerator<Hsv> = {
     color: hsv,
     setColor: setHsv,
     fetchModelColorValues: () => {

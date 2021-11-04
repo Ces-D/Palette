@@ -4,7 +4,7 @@ import { ChangeEventHandler } from "react";
 type Props = {
   title: string;
   value: number | string;
-  onChangeHandler: ChangeEventHandler<HTMLInputElement> | undefined;
+  onChangeHandler: ChangeEventHandler<HTMLInputElement>;
   nonRangeInputType?: HTMLInputTypeAttribute | undefined;
   max?: number;
   maxLength?: number;

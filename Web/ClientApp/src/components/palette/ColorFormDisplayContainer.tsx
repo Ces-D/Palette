@@ -3,14 +3,20 @@ import { v4 as uuidv4 } from "uuid";
 import { ColorType } from "../../store/Color/colorSlice";
 import Switch from "../general/Switch";
 import useColorGenerator, { UseColorGeneratorProps } from "../hooks/useColorGenerator";
-// import HexForm from "./HexForm"; // TODO: consider deleting the hexForm
 import HsvForm from "./HsvForm";
 import RgbForm from "./RgbForm";
 
+/**
+ * @summary Each Color Form should implement these Props and extend on them with their respective FormProps<ColorType>
+ */
 export type BaseColorFormProps = {
   value: ColorType;
   baseSelectSection: BaseSelectSection;
 };
+
+/**
+ * @summary Each Color Form should implement the same BaseSelectSection
+ */
 type BaseSelectSection = {
   activeColorType: ColorType | string;
   setActiveColorType: Dispatch<SetStateAction<ColorType | string>>;
@@ -25,7 +31,6 @@ export default function ColorFormDisplayContainer(props: Props) {
   const { rgbFormGenerator, hsvFormGenerator, hexFormGenerator } = useColorGenerator({
     color: props.color,
     value: colorType,
-    setItemContainerBackgroundColor: props.setItemContainerBackgroundColor,
   });
 
   const selectSection: BaseSelectSection = {

@@ -2,24 +2,24 @@ import { useState } from "react";
 import LockOpenIcon from "../general/icons/LockOpenIcon";
 import LockClosedIcon from "../general/icons/LockClosedIcon";
 import ColorFormDisplayContainer from "./ColorFormDisplayContainer";
-import { Color, removeColorModel } from "../../store/Color/colorSlice";
+import { removeColorModel } from "../../store/Color/colorSlice";
 import TrashIcon from "../general/icons/TrashIcon";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-export default function ColorItem(props: Color) {
-  const [itemColor, setItemColor] = useState(props.rgb.color);
+export default function ColorItem(props: { index: number }) {
+  const thisColor = useAppSelector((state) => state.colors[props.index]);
   const dispatch = useAppDispatch();
   const [lock, setLocked] = useState(false);
 
   return (
     <li
       className="flex-grow sm:h-96 border border-solid"
-      style={{ backgroundColor: itemColor }}
+      style={{ backgroundColor: thisColor.rgb.color }}
     >
       <div className="flex flex-col justify-around items-center p-2 h-full text-red-200">
         <button
           onClick={() => {
-            !lock && dispatch(removeColorModel({ id: props.id }));
+            !lock && dispatch(removeColorModel({ id: thisColor.id }));
           }}
           className={
             lock
@@ -39,10 +39,7 @@ export default function ColorItem(props: Color) {
             <LockClosedIcon class="fill-current h-5 w-5" />
           )}
         </button>
-        <ColorFormDisplayContainer
-          color={props}
-          setItemContainerBackgroundColor={setItemColor}
-        />
+        <ColorFormDisplayContainer color={thisColor} />
       </div>
     </li>
   );

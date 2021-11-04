@@ -2,15 +2,22 @@ import { useState } from "react";
 import { Hsv } from "../../store/Color/colorSlice";
 import ColorInputSection from "../general/form/ColorInputSection";
 import ColorSelectSection from "../general/form/ColorSelectSection";
-import { ColorForm } from "../hooks/useColorGenerator";
+import { ColorFormGenerator } from "../hooks/useColorGenerator";
 import { BaseColorFormProps } from "./ColorFormDisplayContainer";
 
-type Props = BaseColorFormProps & ColorForm<Hsv>;
+type Props = BaseColorFormProps & ColorFormGenerator<Hsv>;
 
 export default function HsvForm(props: Props) {
-  const [hue, setHue] = useState(props.color.hue);
-  const [saturation, setSaturation] = useState(props.color.saturation);
-  const [value, setValue] = useState(props.color.hValue);
+  const [hueValue, setHueValue] = useState<number>(props.color.hue);
+  const [saturationValue, setSaturationValue] = useState<number>(props.color.saturation);
+  const [hsvValue, setHsvValue] = useState<number>(props.color.hValue);
+
+  const newHsvColor: Hsv = {
+    color: `hsv(${hueValue}, ${saturationValue}%, ${hsvValue})`,
+    hue: hueValue,
+    saturation: saturationValue,
+    hValue: hsvValue,
+  };
 
   return (
     <div title={props.value} className="p-2 bg-white rounded-sm w-60">
@@ -18,8 +25,8 @@ export default function HsvForm(props: Props) {
         title="Hue"
         max={359}
         min={0}
-        value={hue}
-        onChangeHandler={(e) => setHue(e.target.valueAsNumber)}
+        value={hueValue}
+        onChangeHandler={(e) => setHueValue(e.target.valueAsNumber)}
         range={true}
         rangeClasses="bg-gray-500 appearance-none w-full h-1 rounded outline-none slider-thumb"
         // consider adding style classes for range color
@@ -28,8 +35,8 @@ export default function HsvForm(props: Props) {
         title="Saturation"
         max={100}
         min={0}
-        value={saturation}
-        onChangeHandler={(e) => setSaturation(e.target.valueAsNumber)}
+        value={saturationValue}
+        onChangeHandler={(e) => setSaturationValue(e.target.valueAsNumber)}
         range={true}
         rangeClasses="bg-gray-500 appearance-none w-full h-1 rounded outline-none slider-thumb"
         // consider adding style classes for range color
@@ -38,23 +45,17 @@ export default function HsvForm(props: Props) {
         title="Value"
         max={100}
         min={0}
-        value={value}
-        onChangeHandler={(e) => setValue(e.target.valueAsNumber)}
+        value={hsvValue}
+        onChangeHandler={(e) => setHsvValue(e.target.valueAsNumber)}
         range={true}
         rangeClasses="bg-gray-500 appearance-none w-full h-1 rounded outline-none slider-thumb"
         // consider adding style classes for range color
       />
       <ColorSelectSection
         selected={props.baseSelectSection.activeColorType}
-        onChangeHandler={(e) => {
-          props.setColor({
-            color: `hsv(${hue}, ${saturation}%, ${value}%)`,
-            hue: hue,
-            saturation: saturation,
-            hValue: value,
-          });
+        onChangeHandler={() => {
+          props.setColor(newHsvColor);
           props.fetchModelColorValues();
-          props.baseSelectSection.setActiveColorType(e.target.value);
         }}
         hexColorValue={props.baseSelectSection.hexValue}
       />

@@ -16,8 +16,8 @@ export default function Home() {
   return (
     <Container>
       <ul className="flex flex-col md:flex-row relative">
-        {colors.map((paletteColor) => (
-          <ColorItem key={paletteColor.id} {...paletteColor} />
+        {colors.map((paletteColor, index) => (
+          <ColorItem key={paletteColor.id} index={index} />
         ))}
         <button
           onClick={() => {
@@ -33,3 +33,4 @@ export default function Home() {
 }
 
 //TODO: implement the color harmony features
+// TODO: implement changing color when moving the slider

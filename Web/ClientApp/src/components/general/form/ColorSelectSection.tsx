@@ -1,9 +1,14 @@
-import { ChangeEvent } from "react";
+import { ChangeEventHandler } from "react";
 import { ColorType } from "../../../store/Color/colorSlice";
 
+/**
+ * @property {ColorType} selected: the currently chosen color type
+ * @property {Function} onChangeHandler: function that gets called when value changes. Currently being used to dispatch the update colorModel action
+ * @property {string} hexColorValue: string representation of the current hex color
+ */
 export type ColorSelectSectionProps = {
   selected: ColorType | string;
-  onChangeHandler: (e: ChangeEvent<HTMLSelectElement>) => void;
+  onChangeHandler: ChangeEventHandler<HTMLSelectElement>;
   hexColorValue: string;
 };
 
