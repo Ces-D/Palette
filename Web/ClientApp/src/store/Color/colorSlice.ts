@@ -51,13 +51,12 @@ const initialColorState: Color[] = [];
 /**
  * @method POST
  * @summary This fetches a new color model calculated from a specific color type string
- * @see  {ColorControllerGenerate}
+ * @see  {ColorControllerGenerateColorModel}
  */
 export const fetchColorModel = createAsyncThunk(
   "color/fetchColorModel",
-  async (requestBody: ColorControllerGenerateColorModel) => {
+  async (requestBody: ColorControllerGenerateColorModel): Promise<Color> => {
     const response = await axios.post("api/Color", requestBody);
-    // console.log("FETCH COLOR MODEL: ", response.data);
     return response.data;
   }
 );
@@ -68,9 +67,8 @@ export const fetchColorModel = createAsyncThunk(
  */
 export const fetchRandomColorModel = createAsyncThunk(
   "color/fetchRandomColorModel",
-  async () => {
+  async (): Promise<Color> => {
     const response = await axios.get("api/Color");
-    // console.log("FETCH RANDOM COLOR MODEL: ", response.data);
     return response.data;
   }
 );
@@ -79,39 +77,18 @@ const colorSlice = createSlice({
   name: "color",
   initialState: initialColorState,
   reducers: {
-    updateExistingColorModel(
-      state,
-      action: PayloadAction<{ id: string; colorUpdates: Color }>
-    ) {
-      const targetColorIndex = state.findIndex((color) => {
-        color.id === action.payload.id;
-      });
-      state[targetColorIndex] = {
-        ...action.payload.colorUpdates,
-        id: action.payload.id,
-      };
-    },
     removeColorModel(state, action: PayloadAction<{ id: string }>) {
-      state.splice(
-        // This is how you remove items from an array without  duplicating the array
-        state.findIndex((color) => {
-          color.id === action.payload.id;
-        }),
-        1
-      );
+      return state.filter((color) => color.id !== action.payload.id);
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchColorModel.fulfilled, (state, action) => {
-        // FIXME: This does not work
-        const targetColorIndex =
-          state.findIndex((color) => {
-            color.id === action.payload.id;
-          }) + 1;
-        console.log("TARGET INDEX: ", targetColorIndex);
-        console.log("PAYLOAD INDEX: ", action.payload);
-        // state[targetColorIndex] = action.payload;
+        const updateIndex = state.findIndex((color) => color.id === action.payload.id);
+        state[updateIndex].hex = action.payload.hex;
+        state[updateIndex].hsv = action.payload.hsv;
+        state[updateIndex].rgb = action.payload.rgb;
+        return state;
       })
       .addCase(fetchRandomColorModel.fulfilled, (state, action) => {
         state.push(action.payload);
@@ -119,5 +96,5 @@ const colorSlice = createSlice({
   },
 });
 
-export const { removeColorModel, updateExistingColorModel } = colorSlice.actions;
+export const { removeColorModel } = colorSlice.actions;
 export default colorSlice.reducer;
