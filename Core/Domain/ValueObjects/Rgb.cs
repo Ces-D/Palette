@@ -39,6 +39,7 @@ namespace Core.Domain.ValueObjects
         public int Red { get; private set; }
         public int Green { get; private set; }
         public int Blue { get; private set; }
+        public string Color { get { return ToString(); } }
 
         public static implicit operator string(Rgb rgb) => rgb.ToString();
 

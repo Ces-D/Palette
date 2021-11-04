@@ -47,7 +47,8 @@ namespace Core.Domain.ValueObjects
         public float Hue { get; private set; }
         public float Saturation { get; private set; }
         public float Value { get; private set; }
-
+        public string Color { get { return ToString(); } }
+        
         public static implicit operator string(Hsv hsv) => hsv.ToString();
 
         // see - https://www.had2know.com/technology/hsv-rgb-conversion-formula-calculator.html#:~:text=Converting%20HSV%20to%20RGB%20Given%20the%20values%20of,M%20%3D%20255V%20m%20%3D%20M%20%281-S%29.%20
