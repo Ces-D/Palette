@@ -27,7 +27,7 @@ namespace Core.Domain.ValueObjects
                     var S = float.Parse(digits[2]);
                     var V = float.Parse(digits[3]);
 
-                    if (H < 0 || H >= 360) { throw new ArgumentOutOfRangeException("Hue", "Hue should be between 0 and 360"); }
+                    if (H < 0 || H > 360) { throw new ArgumentOutOfRangeException("Hue", "Hue should be between 0 and 360"); }
                     if (S < 0 || S > 100) { throw new ArgumentOutOfRangeException("Saturation", "Saturation should be between 0 and 100"); }
                     if (V < 0 || V > 100) { throw new ArgumentOutOfRangeException("Value", "Value should be between 0 and 100"); }
 

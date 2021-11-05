@@ -8,7 +8,11 @@ namespace Core.Domain.Exceptions
 {
     public class PostBodyException : Exception
     {
-        public PostBodyException(object body, string? message) : base(message ?? $"Post body incorrect:\n {body} ")
+        public PostBodyException(object body) : base($"Post body incorrect:\n {body} ")
+        {
+
+        }
+        public PostBodyException(object body, string message) : base(message)
         {
 
         }
