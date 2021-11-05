@@ -1,14 +1,14 @@
-import { ChangeEventHandler } from "react";
-import { ColorType } from "../../../store/Color/colorSlice";
+import { Dispatch, SetStateAction } from "react";
+import { ColorType } from "../../../store/Color/types";
 
 /**
  * @property {ColorType} selected: the currently chosen color type
- * @property {Function} onChangeHandler: function that gets called when value changes. Currently being used to dispatch the update colorModel action
+ * @property {Function} setActiveColorType: function that gets called when value changes. Currently being used to set the active color type of the parent component
  * @property {string} hexColorValue: string representation of the current hex color
  */
 export type ColorSelectSectionProps = {
   selected: ColorType | string;
-  onChangeHandler: ChangeEventHandler<HTMLSelectElement>;
+  setActiveColorType: Dispatch<SetStateAction<ColorType | string>>;
   hexColorValue: string;
 };
 
@@ -20,7 +20,9 @@ export default function ColorSelectSection(props: ColorSelectSectionProps) {
         name="selectType"
         id="selectType"
         value={props.selected}
-        onChange={props.onChangeHandler}
+        onChange={(e) => {
+          props.setActiveColorType(e.target.value);
+        }}
       >
         <option value="rgb">RGB</option>
         <option value="hsv">HSV</option>

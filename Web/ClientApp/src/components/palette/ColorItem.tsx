@@ -1,28 +1,28 @@
-import { useState } from "react";
 import LockOpenIcon from "../general/icons/LockOpenIcon";
 import LockClosedIcon from "../general/icons/LockClosedIcon";
 import ColorFormDisplayContainer from "./ColorFormDisplayContainer";
-import { removeColorModel } from "../../store/Color/colorSlice";
+import { removeColorModel, setLocked } from "../../store/Color/colorSlice";
+import { ColorState } from "../../store/Color/types";
 import TrashIcon from "../general/icons/TrashIcon";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useAppDispatch } from "../../store/hooks";
 
-export default function ColorItem(props: { index: number }) {
-  const thisColor = useAppSelector((state) => state.colors[props.index]);
+export default function ColorItem(props: ColorState) {
   const dispatch = useAppDispatch();
-  const [lock, setLocked] = useState(false);
 
   return (
     <li
       className="flex-grow sm:h-96 border border-solid"
-      style={{ backgroundColor: thisColor.rgb.color }}
+      style={{
+        backgroundColor: `rgb(${props.color.rgb.red}, ${props.color.rgb.green}, ${props.color.rgb.green})`,
+      }}
     >
       <div className="flex flex-col justify-around items-center p-2 h-full text-red-200">
         <button
           onClick={() => {
-            !lock && dispatch(removeColorModel({ id: thisColor.id }));
+            !props.locked && dispatch(removeColorModel({ id: props.color.id }));
           }}
           className={
-            lock
+            props.locked
               ? "bg-gray-800 rounded-full text-gray-400 cursor-not-allowed"
               : "rounded-full hover:bg-gray-50 p-2"
           }
@@ -31,15 +31,15 @@ export default function ColorItem(props: { index: number }) {
         </button>
         <button
           className="rounded-full hover:bg-gray-50 p-2"
-          onClick={() => setLocked(!lock)}
+          onClick={() => dispatch(setLocked)}
         >
-          {!lock ? (
+          {!props.locked ? (
             <LockOpenIcon class="fill-current h-5 w-5" />
           ) : (
             <LockClosedIcon class="fill-current h-5 w-5" />
           )}
         </button>
-        <ColorFormDisplayContainer color={thisColor} />
+        <ColorFormDisplayContainer {...props} />
       </div>
     </li>
   );

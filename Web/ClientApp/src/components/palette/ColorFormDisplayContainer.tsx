@@ -1,11 +1,12 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { ColorType } from "../../store/Color/colorSlice";
+import { ColorState, ColorType } from "../../store/Color/types";
 import Switch from "../general/Switch";
-import useColorGenerator, { UseColorGeneratorProps } from "../hooks/useColorGenerator";
+import useColorGenerator from "../hooks/useColorGenerator";
 import HsvForm from "./HsvForm";
 import RgbForm from "./RgbForm";
-
+import { useAppDispatch } from "../../store/hooks";
+import { setIsFormDisplayed } from "../../store/Color/colorSlice";
 /**
  * @summary Each Color Form should implement these Props and extend on them with their respective FormProps<ColorType>
  */
@@ -23,14 +24,11 @@ type BaseSelectSection = {
   hexValue: string;
 };
 
-type Props = Omit<UseColorGeneratorProps, "value">;
-
-export default function ColorFormDisplayContainer(props: Props) {
-  const [displayForm, setDisplayForm] = useState(false);
+export default function ColorFormDisplayContainer(props: ColorState) {
+  const dispatch = useAppDispatch();
   const [colorType, setColorType] = useState<ColorType | string>("rgb");
   const { rgbFormGenerator, hsvFormGenerator, hexFormGenerator } = useColorGenerator({
     color: props.color,
-    value: colorType,
   });
 
   const selectSection: BaseSelectSection = {
@@ -41,7 +39,7 @@ export default function ColorFormDisplayContainer(props: Props) {
 
   return (
     <>
-      {displayForm && (
+      {props.isFormDisplayed && (
         <Switch
           searchValue={colorType}
           children={[
@@ -60,7 +58,10 @@ export default function ColorFormDisplayContainer(props: Props) {
           ]}
         />
       )}
-      <button className="w-full text-center" onClick={() => setDisplayForm(!displayForm)}>
+      <button
+        className="w-full text-center"
+        onClick={() => dispatch(setIsFormDisplayed({ id: props.color.id }))}
+      >
         <h2 className="text-2xl">
           {(colorType === "rgb" && rgbFormGenerator.color.color) ||
             (colorType === "hsv" && hsvFormGenerator.color.color)}

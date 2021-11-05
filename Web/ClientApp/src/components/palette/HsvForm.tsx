@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Hsv } from "../../store/Color/colorSlice";
+import { Hsv } from "../../store/Color/types";
 import ColorInputSection from "../general/form/ColorInputSection";
 import ColorSelectSection from "../general/form/ColorSelectSection";
 import { ColorFormGenerator } from "../hooks/useColorGenerator";
@@ -12,12 +12,12 @@ export default function HsvForm(props: Props) {
   const [saturationValue, setSaturationValue] = useState<number>(props.color.saturation);
   const [hsvValue, setHsvValue] = useState<number>(props.color.hValue);
 
-  const newHsvColor: Hsv = {
-    color: `hsv(${hueValue}, ${saturationValue}%, ${hsvValue})`,
-    hue: hueValue,
-    saturation: saturationValue,
-    hValue: hsvValue,
-  };
+  // const newHsvColor: Hsv = {
+  //   color: `hsv(${hueValue}, ${saturationValue}%, ${hsvValue})`,
+  //   hue: hueValue,
+  //   saturation: saturationValue,
+  //   hValue: hsvValue,
+  // };
 
   return (
     <div title={props.value} className="p-2 bg-white rounded-sm w-60">
@@ -53,10 +53,7 @@ export default function HsvForm(props: Props) {
       />
       <ColorSelectSection
         selected={props.baseSelectSection.activeColorType}
-        onChangeHandler={() => {
-          props.setColor(newHsvColor);
-          props.fetchModelColorValues();
-        }}
+        setActiveColorType={props.baseSelectSection.setActiveColorType}
         hexColorValue={props.baseSelectSection.hexValue}
       />
     </div>

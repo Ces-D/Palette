@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 import Container from "../general/Container";
 import ColorItem from "../palette/ColorItem";
 import PlusIcon from "../general/icons/PlusIcon";
@@ -6,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchRandomColorModel } from "../../store/Color/colorSlice";
 
 export default function Home() {
-  const colors = useAppSelector((state) => state.colors);
+  const colorStates = useAppSelector((state) => state.colors);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -16,8 +17,8 @@ export default function Home() {
   return (
     <Container>
       <ul className="flex flex-col md:flex-row relative">
-        {colors.map((paletteColor, index) => (
-          <ColorItem key={paletteColor.id} index={index} />
+        {colorStates.map((colorState) => (
+          <ColorItem key={uuidv4()} {...colorState} />
         ))}
         <button
           onClick={() => {
@@ -33,4 +34,3 @@ export default function Home() {
 }
 
 //TODO: implement the color harmony features
-// TODO: implement changing color when moving the slider
