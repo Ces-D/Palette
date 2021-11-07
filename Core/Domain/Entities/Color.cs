@@ -9,6 +9,7 @@ namespace Core.Domain.Entities
 {
     public class Color
     {
+        public string Id { get; set; }
         public Rgb Rgb { get; set; }
         public Hsv Hsv { get; set; }
         public Hex Hex { get; set; }

@@ -37,6 +37,7 @@ namespace Core.Domain.ValueObjects
         public string Red { get; private set; }
         public string Green { get; private set; }
         public string Blue { get; private set; }
+        public string Color { get { return ToString(); } }
 
         public static implicit operator string(Hex hex) => hex.ToString();
 
