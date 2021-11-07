@@ -8,6 +8,7 @@ import RgbForm from "./RgbForm";
 import { useAppDispatch } from "../../store/hooks";
 import { setIsFormDisplayed } from "../../store/Color/colorSlice";
 import { ColorSelectSectionProps } from "../general/form/ColorSelectSection";
+
 /**
  * @summary Each Color Form should implement these Props and extend on them with their respective FormProps<ColorType>
  */

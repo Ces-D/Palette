@@ -4,7 +4,7 @@ import ColorSelectSection from "../general/form/ColorSelectSection";
 import { ColorFormGenerator } from "../hooks/useColorGenerator";
 import { BaseColorFormProps } from "./ColorFormDisplayContainer";
 import { useAppDispatch } from "../../store/hooks";
-import { updateRgbValueOfColorModel } from "../../store/Color/colorSlice";
+import { updateLocaleRgbValueOfColorModel } from "../../store/Color/colorSlice";
 
 export type Props = BaseColorFormProps & ColorFormGenerator<Rgb>;
 
@@ -20,7 +20,7 @@ export default function RgbForm(props: Props) {
         value={props.color.red}
         onChangeHandler={(e) => {
           dispatch(
-            updateRgbValueOfColorModel({
+            updateLocaleRgbValueOfColorModel({
               id: props.id,
               colorValue: e.target.valueAsNumber,
               rgbType: "r",
@@ -37,7 +37,7 @@ export default function RgbForm(props: Props) {
         value={props.color.green}
         onChangeHandler={(e) => {
           dispatch(
-            updateRgbValueOfColorModel({
+            updateLocaleRgbValueOfColorModel({
               id: props.id,
               colorValue: e.target.valueAsNumber,
               rgbType: "g",
@@ -54,7 +54,7 @@ export default function RgbForm(props: Props) {
         value={props.color.blue}
         onChangeHandler={(e) => {
           dispatch(
-            updateRgbValueOfColorModel({
+            updateLocaleRgbValueOfColorModel({
               id: props.id,
               colorValue: e.target.valueAsNumber,
               rgbType: "b",

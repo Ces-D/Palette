@@ -11,34 +11,32 @@ export default function ColorItem(props: ColorState) {
 
   return (
     <li
-      className="flex-grow sm:h-96 border border-solid"
+      className="flex-grow border border-solid"
       style={{
         backgroundColor: `rgb(${props.color.rgb.red}, ${props.color.rgb.green}, ${props.color.rgb.blue})`,
       }}
     >
-      <div className="flex flex-col justify-around items-center p-2 h-full text-red-200">
+      <div className="flex flex-col justify-around items-center p-2 text-red-200 min-h-56 md:h-88">
+        <div className="block">
         <button
           onClick={() => {
             !props.locked && dispatch(removeColorModel({ id: props.color.id }));
           }}
-          className={
+          className={`${
             props.locked
-              ? "bg-gray-800 rounded-full text-gray-400 cursor-not-allowed"
-              : "rounded-full hover:bg-gray-50 p-2"
-          }
+              ? "bg-gray-800 text-gray-400 cursor-not-allowed"
+              : "hover:bg-gray-50"
+          } icon-button mr-10`}
         >
-          <TrashIcon class="fill-current h-5 w-5" />
+          <TrashIcon />
         </button>
         <button
-          className="rounded-full hover:bg-gray-50 p-2"
+          className="hover:bg-gray-50 icon-button"
           onClick={() => dispatch(setLocked({ id: props.color.id }))}
         >
-          {!props.locked ? (
-            <LockOpenIcon class="fill-current h-5 w-5" />
-          ) : (
-            <LockClosedIcon class="fill-current h-5 w-5" />
-          )}
+          {!props.locked ? <LockOpenIcon /> : <LockClosedIcon />}
         </button>
+        </div>
         <ColorFormDisplayContainer {...props} />
       </div>
     </li>

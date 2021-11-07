@@ -34,9 +34,6 @@ const colorSlice = createSlice({
   name: "color",
   initialState: initialColorState,
   reducers: {
-    removeColorModel(state, action: PayloadAction<{ id: string }>) {
-      return state.filter((colorState) => colorState.color.id !== action.payload.id);
-    },
     setIsFormDisplayed(state, action: PayloadAction<{ id: string }>) {
       const updateIndex = state.findIndex(
         (colorState) => colorState.color.id === action.payload.id
@@ -51,7 +48,10 @@ const colorSlice = createSlice({
       state[updateIndex].locked = !state[updateIndex].locked;
       return state;
     },
-    updateRgbValueOfColorModel(
+    removeColorModel(state, action: PayloadAction<{ id: string }>) {
+      return state.filter((colorState) => colorState.color.id !== action.payload.id);
+    },
+    updateLocaleRgbValueOfColorModel(
       state,
       action: PayloadAction<{ id: string; colorValue: number; rgbType: "r" | "g" | "b" }>
     ) {
@@ -93,12 +93,11 @@ const colorSlice = createSlice({
 
 export const {
   removeColorModel,
-  updateRgbValueOfColorModel,
+  updateLocaleRgbValueOfColorModel,
   setIsFormDisplayed,
   setLocked,
 } = colorSlice.actions;
 export default colorSlice.reducer;
-
 
 //FIXME: currently FormGenerators are bloat code. They do not reduce many features
 // Hex color is not being used and is being calculated from the rgb color values

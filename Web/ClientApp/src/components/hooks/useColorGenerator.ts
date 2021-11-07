@@ -11,7 +11,7 @@ export type UseColorGeneratorProps = {
 
 /**
  * @summary Helper hook for generating the colors and the conversion between the various color types
- * @param {UseColorGeneratorProps} props Color values and the currently active colorType
+ * @param {UseColorGeneratorProps} props Color values
  * @returns Three objects each containing methods and state for handling their respective Forms.
  * Design of the hook is related to the <Color>Form Component
  * Maintains many of the prop drilled entities

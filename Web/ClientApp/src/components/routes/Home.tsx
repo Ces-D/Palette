@@ -24,9 +24,9 @@ export default function Home() {
           onClick={() => {
             dispatch(fetchRandomColorModel());
           }}
-          className="absolute bottom-3 md:bottom-1/2 right-5 rounded-full bg-gray-50 hover:bg-gray-600"
+          className="absolute bottom-3 md:bottom-1/2 right-5 bg-gray-50 hover:bg-gray-600 icon-button"
         >
-          <PlusIcon class="fill-current text-red-600 h-5 w-5" />
+          <PlusIcon class="text-red-600" />
         </button>
       </ul>
     </Container>
