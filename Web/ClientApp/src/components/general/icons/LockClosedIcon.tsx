@@ -6,7 +6,7 @@ export default function LockClosedIcon(props: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className={`${props.class} icon`}
+      className={`${props.class || ""} icon`}
       viewBox="0 0 20 20"
       fill="currentColor"
     >

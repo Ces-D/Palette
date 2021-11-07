@@ -6,7 +6,7 @@ export default function LoginIcon(props: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className={`${props.class} icon`}
+      className={`${props.class || ""} h-6 w-6 stroke-2`}
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -20,5 +20,3 @@ export default function LoginIcon(props: Props) {
     </svg>
   );
 }
-
-// TODO: add to header 
