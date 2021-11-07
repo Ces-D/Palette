@@ -20,5 +20,3 @@ export default function SearchIcon(props: Props) {
     </svg>
   );
 }
-
-// TODO: add to header when in mobile view

@@ -18,7 +18,8 @@ export type UseColorGeneratorProps = {
  */
 
 export default function useColorGenerator(props: UseColorGeneratorProps) {
-  const hexFormGenerator: ColorFormGenerator<Hex> = { // Currently never being used
+  const hexFormGenerator: ColorFormGenerator<Hex> = {
+    // Currently never being used
     id: props.color.id,
     color: props.color.hex,
   };
@@ -29,6 +30,7 @@ export default function useColorGenerator(props: UseColorGeneratorProps) {
   };
 
   const hsvFormGenerator: ColorFormGenerator<Hsv> = {
+    // Currently never being used because css doesnt accept hsv values
     id: props.color.id,
     color: props.color.hsv,
   };

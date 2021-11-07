@@ -12,7 +12,7 @@ export default function RgbForm(props: Props) {
   const dispatch = useAppDispatch();
 
   return (
-    <div title={props.value} className="p-2 bg-white rounded-sm w-full sm:w-64">
+    <div title={props.value} className="p-2 bg-white rounded-sm w-1/2 sm:w-64">
       <ColorInputSection
         title="Red"
         max={255}
@@ -68,6 +68,7 @@ export default function RgbForm(props: Props) {
         selected={props.baseSelectSection.selected}
         setActiveColorType={props.baseSelectSection.setActiveColorType}
         rgbColor={props.baseSelectSection.rgbColor}
+        colorId={props.id}
       />
     </div>
   );

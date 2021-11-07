@@ -12,7 +12,7 @@ type Props = {
   range?: boolean;
   rangeClasses?: string;
   titleWidthClass?: string;
-  inputStyleClass?:string;
+  inputStyleClass?: string;
   inputWidthClass?: string;
 };
 
@@ -21,7 +21,9 @@ export default function ColorInputSection(props: Props) {
     <section className="py-0.5">
       <p className={`inline-block ${props.titleWidthClass || "w-3/4"}`}>{props.title}</p>
       <input
-        className={`inline-block px-1 ${props.inputStyleClass} ${props.inputWidthClass || "w-1/4"}`}
+        className={`inline-block px-1 ${props.inputStyleClass} ${
+          props.inputWidthClass || "w-1/4"
+        }`}
         type={props.nonRangeInputType || "number"}
         max={props.max}
         min={props.min}
@@ -42,3 +44,7 @@ export default function ColorInputSection(props: Props) {
     </section>
   );
 }
+
+// TODO: range needs to be draggable
+// on mobile display we should move the colorForm to the left so that is out of the way and  doesn't unnecessarily
+// take up space

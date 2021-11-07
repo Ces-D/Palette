@@ -1,7 +1,7 @@
 /**
  * @summary Model for the Rgb Color Model
  */
- export interface Rgb {
+export interface Rgb {
   color: string;
   red: number;
   green: number;
@@ -31,7 +31,7 @@ export type ColorType = "rgb" | "hex" | "hsv";
  * @summary The view model for the api POST request for ColorController
  */
 export interface ColorControllerGenerateColorModel {
-  ColorType: ColorType;
+  ColorType: ColorType | string;
   ColorValue: string;
   ColorId: string;
 }

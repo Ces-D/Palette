@@ -100,12 +100,13 @@ export const {
 export default colorSlice.reducer;
 
 //FIXME: currently FormGenerators are bloat code. They do not reduce many features
-// Hex color is not being used and is being calculated from the rgb color values
+// Hex color and Hsv color is not being used and is being calculated from the rgb color values
 // HSV does not do anything because hsv cannot be used as a css color unlike hsl
 
-// Currently fetchColorModel is not being used anywhere
+// Currently fetchColorModel needs testing
 /**
- * This is because the plan is to fetch the color model only when switching between color Types. This maintains
+ * This is because the plan is to fetch the color model only when switching between color Types.
+ * But since there currently is only rgb then we cannot switch between so it cannot be tested. This maintains
  * the responsiveness of the client and doesnt overload the server when being called a million times if user
  * plays with slider
  */

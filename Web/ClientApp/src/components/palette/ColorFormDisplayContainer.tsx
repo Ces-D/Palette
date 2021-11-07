@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from "uuid";
 import { ColorState, ColorType } from "../../store/Color/types";
 import Switch from "../general/Switch";
 import useColorGenerator from "../hooks/useColorGenerator";
-import HsvForm from "./HsvForm";
 import RgbForm from "./RgbForm";
 import { useAppDispatch } from "../../store/hooks";
 import { setIsFormDisplayed } from "../../store/Color/colorSlice";
@@ -20,7 +19,7 @@ export type BaseColorFormProps = {
 export default function ColorFormDisplayContainer(props: ColorState) {
   const dispatch = useAppDispatch();
   const [colorType, setColorType] = useState<ColorType | string>("rgb");
-  const { rgbFormGenerator, hsvFormGenerator } = useColorGenerator({
+  const { rgbFormGenerator } = useColorGenerator({
     color: props.color,
   });
 
@@ -28,6 +27,7 @@ export default function ColorFormDisplayContainer(props: ColorState) {
     selected: colorType,
     setActiveColorType: setColorType,
     rgbColor: rgbFormGenerator.color,
+    colorId: props.color.id,
   };
 
   return (
@@ -42,12 +42,6 @@ export default function ColorFormDisplayContainer(props: ColorState) {
               baseSelectSection={selectSection}
               {...rgbFormGenerator}
             />,
-            <HsvForm
-              key={uuidv4()}
-              value="hsv"
-              baseSelectSection={selectSection}
-              {...hsvFormGenerator}
-            />,
           ]}
         />
       )}
@@ -56,10 +50,7 @@ export default function ColorFormDisplayContainer(props: ColorState) {
         onClick={() => dispatch(setIsFormDisplayed({ id: props.color.id }))}
       >
         <h2 className="text-2xl">
-          {(colorType === "rgb" &&
-            `rgb(${rgbFormGenerator.color.red}, ${rgbFormGenerator.color.green}, ${rgbFormGenerator.color.blue})`) ||
-            (colorType === "hsv" &&
-              `hsv(${hsvFormGenerator.color.hue}, ${hsvFormGenerator.color.saturation}%, ${hsvFormGenerator.color.hValue}%)`)}
+          {`rgb(${rgbFormGenerator.color.red}, ${rgbFormGenerator.color.green}, ${rgbFormGenerator.color.blue})`}
         </h2>
       </button>
     </>
