@@ -13,7 +13,7 @@ export default function ColorItem(props: ColorState) {
     <li
       className="flex-grow sm:h-96 border border-solid"
       style={{
-        backgroundColor: `rgb(${props.color.rgb.red}, ${props.color.rgb.green}, ${props.color.rgb.green})`,
+        backgroundColor: `rgb(${props.color.rgb.red}, ${props.color.rgb.green}, ${props.color.rgb.blue})`,
       }}
     >
       <div className="flex flex-col justify-around items-center p-2 h-full text-red-200">
@@ -31,7 +31,7 @@ export default function ColorItem(props: ColorState) {
         </button>
         <button
           className="rounded-full hover:bg-gray-50 p-2"
-          onClick={() => dispatch(setLocked)}
+          onClick={() => dispatch(setLocked({ id: props.color.id }))}
         >
           {!props.locked ? (
             <LockOpenIcon class="fill-current h-5 w-5" />

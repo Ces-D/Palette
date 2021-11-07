@@ -4,12 +4,13 @@ import ColorSelectSection from "../general/form/ColorSelectSection";
 import { ColorFormGenerator } from "../hooks/useColorGenerator";
 import { BaseColorFormProps } from "./ColorFormDisplayContainer";
 import { useAppDispatch } from "../../store/hooks";
-import { updateRedRgbValueOfColorModel } from "../../store/Color/colorSlice";
+import { updateRgbValueOfColorModel } from "../../store/Color/colorSlice";
 
 export type Props = BaseColorFormProps & ColorFormGenerator<Rgb>;
 
 export default function RgbForm(props: Props) {
   const dispatch = useAppDispatch();
+
   return (
     <div title={props.value} className="p-2 bg-white rounded-sm w-full sm:w-64">
       <ColorInputSection
@@ -19,9 +20,10 @@ export default function RgbForm(props: Props) {
         value={props.color.red}
         onChangeHandler={(e) => {
           dispatch(
-            updateRedRgbValueOfColorModel({
+            updateRgbValueOfColorModel({
               id: props.id,
-              redColor: e.target.valueAsNumber,
+              colorValue: e.target.valueAsNumber,
+              rgbType: "r",
             })
           );
         }}
@@ -33,7 +35,15 @@ export default function RgbForm(props: Props) {
         max={255}
         min={0}
         value={props.color.green}
-        onChangeHandler={() => {}}
+        onChangeHandler={(e) => {
+          dispatch(
+            updateRgbValueOfColorModel({
+              id: props.id,
+              colorValue: e.target.valueAsNumber,
+              rgbType: "g",
+            })
+          );
+        }}
         range={true}
         rangeClasses="bg-green-500 appearance-none w-full h-1 rounded outline-none slider-thumb py-1"
       />
@@ -42,14 +52,22 @@ export default function RgbForm(props: Props) {
         max={255}
         min={0}
         value={props.color.blue}
-        onChangeHandler={() => {}}
+        onChangeHandler={(e) => {
+          dispatch(
+            updateRgbValueOfColorModel({
+              id: props.id,
+              colorValue: e.target.valueAsNumber,
+              rgbType: "b",
+            })
+          );
+        }}
         range={true}
         rangeClasses="bg-blue-500 appearance-none w-full h-1 rounded outline-none slider-thumb py-1"
       />
       <ColorSelectSection
-        selected={props.baseSelectSection.activeColorType}
+        selected={props.baseSelectSection.selected}
         setActiveColorType={props.baseSelectSection.setActiveColorType}
-        hexColorValue={props.baseSelectSection.hexValue}
+        rgbColor={props.baseSelectSection.rgbColor}
       />
     </div>
   );

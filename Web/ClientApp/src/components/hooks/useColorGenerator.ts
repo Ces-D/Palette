@@ -18,7 +18,7 @@ export type UseColorGeneratorProps = {
  */
 
 export default function useColorGenerator(props: UseColorGeneratorProps) {
-  const hexFormGenerator: ColorFormGenerator<Hex> = {
+  const hexFormGenerator: ColorFormGenerator<Hex> = { // Currently never being used
     id: props.color.id,
     color: props.color.hex,
   };

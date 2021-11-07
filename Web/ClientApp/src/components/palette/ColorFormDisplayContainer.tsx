@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { ColorState, ColorType } from "../../store/Color/types";
 import Switch from "../general/Switch";
@@ -7,34 +7,26 @@ import HsvForm from "./HsvForm";
 import RgbForm from "./RgbForm";
 import { useAppDispatch } from "../../store/hooks";
 import { setIsFormDisplayed } from "../../store/Color/colorSlice";
+import { ColorSelectSectionProps } from "../general/form/ColorSelectSection";
 /**
  * @summary Each Color Form should implement these Props and extend on them with their respective FormProps<ColorType>
  */
 export type BaseColorFormProps = {
   value: ColorType;
-  baseSelectSection: BaseSelectSection;
-};
-
-/**
- * @summary Each Color Form should implement the same BaseSelectSection
- */
-type BaseSelectSection = {
-  activeColorType: ColorType | string;
-  setActiveColorType: Dispatch<SetStateAction<ColorType | string>>;
-  hexValue: string;
+  baseSelectSection: ColorSelectSectionProps;
 };
 
 export default function ColorFormDisplayContainer(props: ColorState) {
   const dispatch = useAppDispatch();
   const [colorType, setColorType] = useState<ColorType | string>("rgb");
-  const { rgbFormGenerator, hsvFormGenerator, hexFormGenerator } = useColorGenerator({
+  const { rgbFormGenerator, hsvFormGenerator } = useColorGenerator({
     color: props.color,
   });
 
-  const selectSection: BaseSelectSection = {
-    activeColorType: colorType,
+  const selectSection: ColorSelectSectionProps = {
+    selected: colorType,
     setActiveColorType: setColorType,
-    hexValue: hexFormGenerator.color.color,
+    rgbColor: rgbFormGenerator.color,
   };
 
   return (
@@ -63,8 +55,10 @@ export default function ColorFormDisplayContainer(props: ColorState) {
         onClick={() => dispatch(setIsFormDisplayed({ id: props.color.id }))}
       >
         <h2 className="text-2xl">
-          {(colorType === "rgb" && rgbFormGenerator.color.color) ||
-            (colorType === "hsv" && hsvFormGenerator.color.color)}
+          {(colorType === "rgb" &&
+            `rgb(${rgbFormGenerator.color.red}, ${rgbFormGenerator.color.green}, ${rgbFormGenerator.color.blue})`) ||
+            (colorType === "hsv" &&
+              `hsv(${hsvFormGenerator.color.hue}, ${hsvFormGenerator.color.saturation}%, ${hsvFormGenerator.color.hValue}%)`)}
         </h2>
       </button>
     </>

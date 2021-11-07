@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { ColorType } from "../../../store/Color/types";
+import { ColorType, Rgb } from "../../../store/Color/types";
 
 /**
  * @property {ColorType} selected: the currently chosen color type
@@ -9,7 +9,7 @@ import { ColorType } from "../../../store/Color/types";
 export type ColorSelectSectionProps = {
   selected: ColorType | string;
   setActiveColorType: Dispatch<SetStateAction<ColorType | string>>;
-  hexColorValue: string;
+  rgbColor: Rgb;
 };
 
 export default function ColorSelectSection(props: ColorSelectSectionProps) {
@@ -27,7 +27,9 @@ export default function ColorSelectSection(props: ColorSelectSectionProps) {
         <option value="rgb">RGB</option>
         <option value="hsv">HSV</option>
       </select>
-      <h2>{props.hexColorValue}</h2>
+      <h2>{`#${props.rgbColor.red.toString(16).toUpperCase()}${props.rgbColor.green
+        .toString(16)
+        .toUpperCase()}${props.rgbColor.blue.toString(16).toUpperCase()}`}</h2>
     </section>
   );
 }

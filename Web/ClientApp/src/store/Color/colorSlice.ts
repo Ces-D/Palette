@@ -13,6 +13,7 @@ export const fetchColorModel = createAsyncThunk(
   "color/fetchColorModel",
   async (requestBody: ColorControllerGenerateColorModel): Promise<Color> => {
     const response = await axios.post("api/Color", requestBody);
+    console.log("FETCH COLOR MODEL RESPONSE: ", response.data);
     return response.data;
   }
 );
@@ -50,14 +51,26 @@ const colorSlice = createSlice({
       state[updateIndex].locked = !state[updateIndex].locked;
       return state;
     },
-    updateRedRgbValueOfColorModel(
+    updateRgbValueOfColorModel(
       state,
-      action: PayloadAction<{ id: string; redColor: number }>
+      action: PayloadAction<{ id: string; colorValue: number; rgbType: "r" | "g" | "b" }>
     ) {
       const updateIndex = state.findIndex(
         (colorState) => colorState.color.id === action.payload.id
       );
-      state[updateIndex].color.rgb.red = action.payload.redColor;
+      switch (action.payload.rgbType) {
+        case "r":
+          state[updateIndex].color.rgb.red = action.payload.colorValue;
+          break;
+        case "g":
+          state[updateIndex].color.rgb.green = action.payload.colorValue;
+          break;
+        case "b":
+          state[updateIndex].color.rgb.blue = action.payload.colorValue;
+          break;
+        default:
+          break;
+      }
       return state;
     },
   },
@@ -80,11 +93,20 @@ const colorSlice = createSlice({
 
 export const {
   removeColorModel,
-  updateRedRgbValueOfColorModel,
+  updateRgbValueOfColorModel,
   setIsFormDisplayed,
   setLocked,
 } = colorSlice.actions;
 export default colorSlice.reducer;
 
-// TODO: test the locked function and general cleaning
-// TODO: add reducer for the remaing green and blue of rgb
+
+//FIXME: currently FormGenerators are bloat code. They do not reduce many features
+// Hex color is not being used and is being calculated from the rgb color values
+// HSV does not do anything because hsv cannot be used as a css color unlike hsl
+
+// Currently fetchColorModel is not being used anywhere
+/**
+ * This is because the plan is to fetch the color model only when switching between color Types. This maintains
+ * the responsiveness of the client and doesnt overload the server when being called a million times if user
+ * plays with slider
+ */

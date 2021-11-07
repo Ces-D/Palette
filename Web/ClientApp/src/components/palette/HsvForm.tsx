@@ -52,9 +52,9 @@ export default function HsvForm(props: Props) {
         // consider adding style classes for range color
       />
       <ColorSelectSection
-        selected={props.baseSelectSection.activeColorType}
+        selected={props.baseSelectSection.selected}
         setActiveColorType={props.baseSelectSection.setActiveColorType}
-        hexColorValue={props.baseSelectSection.hexValue}
+        rgbColor={props.baseSelectSection.rgbColor}
       />
     </div>
   );
