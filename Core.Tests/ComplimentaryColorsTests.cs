@@ -17,7 +17,18 @@ namespace Core.Tests
             var builder = new ComplimentaryColorBuilder(white);
             var compliments = builder.Create();
             Assert.Equal("#FFFFFF", compliments.Primary.Hex.ToString());
+            Assert.Equal("rgb(0, 0, 0)", compliments.Compliment.Rgb.ToString());
+        }
+
+        [Fact]
+        public void Black_complimentary_color_values_match()
+        {
+            var black = ColorBuilder.BuildFromHsl("hsl(0, 0%, 0%)");
+            var builder = new ComplimentaryColorBuilder(black);
+            var compliments = builder.Create();
+            Assert.Equal("hsv(0, 0%, 0%)", compliments.Primary.Hsv.ToString());
             Assert.Equal("rgb(255, 255, 255)", compliments.Compliment.Rgb.ToString());
         }
+
     }
 }

@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Core.Domain.Exceptions;
+using Core.Domain.Interfaces;
 
 namespace Core.Domain.ValueObjects
 {
-    public class Hex
+    public class Hex : IColorType, IHex
     {
         private Hex() { }
 
@@ -53,6 +54,12 @@ namespace Core.Domain.ValueObjects
         {
             var rgb = ToRgb();
             return rgb.ToHsv();
+        }
+
+        public Hsl ToHsl()
+        {
+            var rgb = ToRgb();
+            return rgb.ToHsl();
         }
 
         public override string ToString() => $"#{Red}{Green}{Blue}";
