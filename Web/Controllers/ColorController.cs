@@ -13,44 +13,38 @@ using Core.Application.Logic;
 
 namespace Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ColorController : ControllerBase
     {
-        private readonly ILogger<ColorController> _logger;
-        public ColorController(ILogger<ColorController> logger)
-        {
-            _logger = logger;
-        }
 
         // GET api/<ColorController>/random
         [HttpGet]
-        [ActionName("random")]
-        public ColorViewModel GenerateRandomColor()
+        [ActionName("Random")]
+        public ColorViewModel BuildRandomColor()
         {
             var randomRgbValues = new Random();
             var rgbString = $"rgb({randomRgbValues.Next(0, 255)}, {randomRgbValues.Next(0, 255)}, {randomRgbValues.Next(0, 255)})";
             return ColorBuilder.BuildFromRgb(rgbString);
         }
 
-        // POST api/<ColorController>/stringBuild
-        [HttpPost]
-        [ActionName("stringBuild")]
-        public ColorViewModel BuildColorFromString([FromBody] BuildColorFromStringControllerModel buildColor)
+        // POST api/<ColorController>/build
+        [HttpPost, ActionName("Build")]
+        public ColorViewModel BuildColorFromValues([FromBody] BuildColorControllerModel buildColor)
         {
             ColorViewModel colorViewModel = buildColor.ColorType switch
             {
-                ("rgb") => ColorBuilder.BuildFromRgb(buildColor.ColorValue, buildColor.ColorID),
-                ("hsv") => ColorBuilder.BuildFromHsv(buildColor.ColorValue, buildColor.ColorID),
-                ("hex") => ColorBuilder.BuildFromHex(buildColor.ColorValue, buildColor.ColorID),
-                _ => throw new PostBodyException(buildColor.ColorValue, null),
+                (ColorTypeControllerEnum.rgb) => ColorBuilder.BuildFromRgb(buildColor.ColorString, buildColor.ColorValues.Cast<Byte>().ToArray(), buildColor.ColorId),
+                (ColorTypeControllerEnum.hsl) => ColorBuilder.BuildFromHsl(buildColor.ColorString, buildColor.ColorValues.Cast<Double>().ToArray(), buildColor.ColorId),
+                (ColorTypeControllerEnum.hex) => ColorBuilder.BuildFromHex(buildColor.ColorString, buildColor.ColorId),
+                _ => throw new PostBodyException(buildColor.ColorString, null),
             };
             return colorViewModel;
         }
 
-
     }
 }
+
 // TODO: test the endpoints
 // TODO: update the endpoints called by the client reducers
 

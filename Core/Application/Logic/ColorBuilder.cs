@@ -10,9 +10,9 @@ namespace Core.Application.Logic
 {
     public static class ColorBuilder
     {
-        public static ColorEntity BuildFromRgb(string rgbString, string colorId = null)
+        public static ColorEntity BuildFromRgb(string rgbString = null, byte[] rgbValues = null, string colorId = null)
         {
-            var rgb = Rgb.From(rgbString);
+            var rgb = string.IsNullOrEmpty(rgbString) ? Rgb.From(rgbValues[0], rgbValues[1], rgbValues[2]) : Rgb.From(rgbString);
             var hsv = rgb.ToHsv();
             var hex = rgb.ToHex();
             var hsl = rgb.ToHsl();
@@ -44,9 +44,10 @@ namespace Core.Application.Logic
             };
         }
 
-        public static ColorEntity BuildFromHsv(string hsvString, string colorId = null)
+
+        public static ColorEntity BuildFromHsv(string hsvString = null, double[] hsvValues = null, string colorId = null)
         {
-            var hsv = Hsv.From(hsvString);
+            var hsv = string.IsNullOrEmpty(hsvString) ? Hsv.From(hsvValues[0], hsvValues[1], hsvValues[2]) : Hsv.From(hsvString);
             var hex = hsv.ToHex();
             var rgb = hsv.ToRgb();
             var hsl = hsv.ToHsl();
@@ -61,9 +62,9 @@ namespace Core.Application.Logic
             };
         }
 
-        public static ColorEntity BuildFromHsl(string hslString, string colorId = null)
+        public static ColorEntity BuildFromHsl(string hslString = null, double[] hslValues = null, string colorId = null)
         {
-            var hsl = Hsl.From(hslString);
+            var hsl = string.IsNullOrEmpty(hslString) ? Hsl.From(hslValues[0], hslValues[1], hslValues[2]) : Hsl.From(hslString);
             var hex = hsl.ToHex();
             var rgb = hsl.ToRgb();
             var hsv = hsl.ToHsv();
@@ -79,6 +80,3 @@ namespace Core.Application.Logic
         }
     }
 }
-
-
-// TODO: Add builder functions for the new kind of from Constructors on each ColorType
