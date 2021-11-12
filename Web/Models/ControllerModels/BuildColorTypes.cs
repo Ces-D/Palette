@@ -1,9 +1,8 @@
 ﻿namespace Web.Models.ControllerModels
 {
-    public enum ColorTypeControllerEnum
+    public enum BuildColorTypes
     {
         rgb,
-        hsl,
-        hex
+        hsl
     }
 }

@@ -1,14 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Core.Domain.Interfaces;
 
 namespace Web.Models.ControllerModels
 {
-    public class BuildColorControllerModel
+    public record BuildColorControllerModel : IColor
     {
         [Required]
-        public ColorTypeControllerEnum ColorType { get; set; }
-        public string ColorString { get; set; }
-        public string[] ColorValues { get; set; }
-        public string ColorId { get; set; }
+        public string Id { get; set; }
+
+        [Required]
+        public BuildColorTypes ColorType { get; set; }
+
+        [Required]
+        public string Color { get; set; }
+
     }
 
 }

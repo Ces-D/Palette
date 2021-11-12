@@ -8,9 +8,9 @@ namespace Web.Models.ViewModels
     {
         public string Id { get; set; }
         public RgbViewModel Rgb { get; set; }
-        public IHsl Hsl { get; set; }
+        public HslViewModel Hsl { get; set; }
 
-        public static implicit operator ColorViewModel(ColorEntity colorEntity)
+        public static explicit operator ColorViewModel(ColorEntity colorEntity)
         {
             RgbViewModel rgbViewModel = new()
             {
@@ -29,7 +29,6 @@ namespace Web.Models.ViewModels
             };
 
             return new ColorViewModel() { Id = colorEntity.Id, Rgb = rgbViewModel, Hsl = hslViewModel };
-
         }
 
     }

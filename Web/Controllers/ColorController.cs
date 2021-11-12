@@ -25,27 +25,32 @@ namespace Web.Controllers
         {
             var randomRgbValues = new Random();
             var rgbString = $"rgb({randomRgbValues.Next(0, 255)}, {randomRgbValues.Next(0, 255)}, {randomRgbValues.Next(0, 255)})";
-            return ColorBuilder.BuildFromRgb(rgbString);
+            return (ColorViewModel)ColorBuilder.BuildFromRgb(rgbString);
         }
 
-        // POST api/<ColorController>/build
+        // POST api/<ColorController>/Build
         [HttpPost, ActionName("Build")]
-        public ColorViewModel BuildColorFromValues([FromBody] BuildColorControllerModel buildColor)
+        public ActionResult<ColorViewModel> BuildColorFromModel([FromBody] BuildColorControllerModel buildColorModel)
         {
-            ColorViewModel colorViewModel = buildColor.ColorType switch
+            try
             {
-                (ColorTypeControllerEnum.rgb) => ColorBuilder.BuildFromRgb(buildColor.ColorString, buildColor.ColorValues.Cast<Byte>().ToArray(), buildColor.ColorId),
-                (ColorTypeControllerEnum.hsl) => ColorBuilder.BuildFromHsl(buildColor.ColorString, buildColor.ColorValues.Cast<Double>().ToArray(), buildColor.ColorId),
-                (ColorTypeControllerEnum.hex) => ColorBuilder.BuildFromHex(buildColor.ColorString, buildColor.ColorId),
-                _ => throw new PostBodyException(buildColor.ColorString, null),
+            var colorViewModel = buildColorModel.ColorType switch
+            {
+                BuildColorTypes.rgb => ColorBuilder.BuildFromRgb(buildColorModel.Color, buildColorModel.Id),
+                BuildColorTypes.hsl => ColorBuilder.BuildFromHsl(buildColorModel.Color, buildColorModel.Id),
+                _ => throw new PostBodyException(buildColorModel, "Error with accepting these values"),
             };
-            return colorViewModel;
+            return (ColorViewModel)colorViewModel;
+            }
+            catch (Exception ex)
+            {
+                throw new PostBodyException(ex);
+            }
         }
-
     }
 }
 
-// TODO: test the endpoints
+// TODO: controllers are not throwing any errors when inputs incorrect
 // TODO: update the endpoints called by the client reducers
 
 // TODO: When you start working on creating profiles, set Palette api endpoints according to the paletteModel written in ClientApp/src/store/Palette
