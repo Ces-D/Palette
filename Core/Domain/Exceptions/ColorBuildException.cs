@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Core.Domain.Exceptions
 {
-    public class HslInvalidException : Exception
+    public class ColorBuildException : Exception
     {
-        public HslInvalidException(string hslString, Exception ex) : base($"Invalid Hsl string: {hslString}", ex)
+        public ColorBuildException(Exception ex) : base(ex.Message)
         {
 
         }

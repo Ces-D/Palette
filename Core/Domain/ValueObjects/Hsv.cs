@@ -15,10 +15,10 @@ namespace Core.Domain.ValueObjects
 
         public static Hsv From(string hsvString)
         {
-            var hsv = new Hsv();
-
             try
             {
+                var hsv = new Hsv();
+
                 var hsvFormatPattern = new Regex(@"hsv\((\d{1,3}), (\d{1,3})%, (\d{1,3})%\)");
                 if (hsvFormatPattern.IsMatch(hsvString))
                 {
@@ -36,13 +36,13 @@ namespace Core.Domain.ValueObjects
                     hsv.Saturation = S;
                     hsv.Value = V;
                 }
+                return hsv;
             }
             catch (Exception ex)
             {
                 throw new HsvInvalidException(hsvString, ex);
             }
 
-            return hsv;
         }
 
         public static Hsv From(double hue, double saturation, double value)

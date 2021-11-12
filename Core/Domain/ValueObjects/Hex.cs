@@ -15,10 +15,10 @@ namespace Core.Domain.ValueObjects
 
         public static Hex From(string hexString)
         {
-            var hex = new Hex();
-
             try
             {
+                var hex = new Hex();
+
                 var hexFormatPattern = new Regex(@"^#([a-fA-F0-9]{6})");
                 if (hexFormatPattern.IsMatch(hexString))
                 {
@@ -26,13 +26,13 @@ namespace Core.Domain.ValueObjects
                     hex.Green = hexString.Substring(3, 2).ToUpper();
                     hex.Blue = hexString.Substring(5, 2).ToUpper();
                 }
+                return hex;
             }
             catch (Exception ex)
             {
                 throw new HexInvalidException(hexString, ex);
             }
 
-            return hex;
         }
 
         public string Red { get; private set; }

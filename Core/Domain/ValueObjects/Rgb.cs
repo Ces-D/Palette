@@ -15,26 +15,20 @@ namespace Core.Domain.ValueObjects
 
         public static Rgb From(string rgbString)
         {
+
             var rgb = new Rgb();
 
-            try
+            var rgbFormatPattern = new Regex(@"rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)");
+            if (rgbFormatPattern.IsMatch(rgbString))
             {
-                var rgbFormatPattern = new Regex(@"rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)");
-                if (rgbFormatPattern.IsMatch(rgbString))
-                {
-                    string rgbNonDigitPattern = @"\D+";
-                    var digits = Regex.Split(rgbString, rgbNonDigitPattern); // split by non digits
-                    rgb.Red = byte.Parse(digits[1]);
-                    rgb.Green = byte.Parse(digits[2]);
-                    rgb.Blue = byte.Parse(digits[3]);
-                }
+                string rgbNonDigitPattern = @"\D+";
+                var digits = Regex.Split(rgbString, rgbNonDigitPattern); // split by non digits
+                rgb.Red = byte.Parse(digits[1]);
+                rgb.Green = byte.Parse(digits[2]);
+                rgb.Blue = byte.Parse(digits[3]);
+                return rgb;
             }
-            catch (Exception ex)
-            {
-                throw new RgbInvalidException(rgbString, ex);
-            }
-
-            return rgb;
+            else { throw new RgbInvalidException(rgbString); }
         }
 
         public static Rgb From(byte red, byte green, byte blue)

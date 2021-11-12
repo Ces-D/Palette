@@ -15,10 +15,10 @@ namespace Core.Domain.ValueObjects
 
         public static Hsl From(string hslString)
         {
-            var hsl = new Hsl();
-
             try
             {
+                var hsl = new Hsl();
+
                 var hslFormatPattern = new Regex(@"hsl\((\d{1,3}), (\d{1,3})%, (\d{1,3})%\)");
                 if (hslFormatPattern.IsMatch(hslString))
                 {
@@ -36,12 +36,12 @@ namespace Core.Domain.ValueObjects
                     hsl.Saturation = S;
                     hsl.Lightness = L;
                 }
+                return hsl;
             }
             catch (Exception ex)
             {
                 throw new HslInvalidException(hslString, ex);
             }
-            return hsl;
         }
 
         public static Hsl From(double hue, double saturation, double lightness)
