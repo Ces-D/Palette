@@ -1,52 +1,56 @@
-﻿using Core.Domain.Entities;
-using Core.Domain.Exceptions;
-using Core.Application.Logic;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Web.Models.ControllerModels;
+using Web.Models.ViewModels;
+using Core.Domain.Exceptions;
+using Core.Application.Logic;
+using Web.Exceptions.Filters;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
+    [ColorBuildExceptionFilter]
     public class ColorController : ControllerBase
     {
-        private readonly ILogger<ColorController> _logger;
-        public ColorController(ILogger<ColorController> logger)
-        {
-            _logger = logger;
-        }
 
-        // GET api/<ColorController>
-        [HttpGet]
-        public Color GenerateRandomColor()
+        // GET api/<ColorController>/random
+        [HttpGet, ActionName("Random")]
+        public ActionResult<ColorViewModel> BuildRandomColor()
         {
             var randomRgbValues = new Random();
             var rgbString = $"rgb({randomRgbValues.Next(0, 255)}, {randomRgbValues.Next(0, 255)}, {randomRgbValues.Next(0, 255)})";
-            return ColorBuilder.BuildFromRgb(rgbString);
+            var colorEntity = ColorBuilder.BuildFromRgb(rgbString);
+
+            return (ColorViewModel)colorEntity;
+            
         }
 
-        // POST api/<ColorController>
-        [HttpPost]
-        public Color GenerateCompleteColorFromString([FromBody] GenerateColorModel generateColorModel)
+        // POST api/<ColorController>/Build
+        [HttpPost, ActionName("Build")]
+        public ActionResult<ColorViewModel> BuildColorFromModel([FromBody] BuildColorControllerModel buildColorModel)
         {
-            Color color = generateColorModel.ColorType switch
+            var colorEntity = buildColorModel.ColorType switch
             {
-                ("rgb") => ColorBuilder.BuildFromRgb(generateColorModel.ColorValue, generateColorModel.ColorID),
-                ("hsv") => ColorBuilder.BuildFromHsv(generateColorModel.ColorValue, generateColorModel.ColorID),
-                ("hex") => ColorBuilder.BuildFromHex(generateColorModel.ColorValue, generateColorModel.ColorID),
-                _ => throw new PostBodyException(generateColorModel.ColorValue, null),
+                BuildColorTypes.rgb => ColorBuilder.BuildFromRgb(buildColorModel.Color, buildColorModel.Id),
+                BuildColorTypes.hsl => ColorBuilder.BuildFromHsl(buildColorModel.Color, buildColorModel.Id),
+                _ => throw new PostBodyException(buildColorModel, "Error with accepting these values"),
             };
-            return color;
-        }
+            return (ColorViewModel)colorEntity;
 
+        }
     }
 }
+
+// TODO: controllers are not throwing any errors when inputs incorrect
+// TODO: update the endpoints called by the client reducers
 
 // TODO: When you start working on creating profiles, set Palette api endpoints according to the paletteModel written in ClientApp/src/store/Palette

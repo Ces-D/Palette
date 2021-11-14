@@ -5,19 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Core.Domain.Exceptions;
+using Core.Domain.Interfaces;
 
 namespace Core.Domain.ValueObjects
 {
-    public class Hex
+    public class Hex : IColorType, IHex
     {
         private Hex() { }
 
         public static Hex From(string hexString)
         {
-            var hex = new Hex();
-
             try
             {
+                var hex = new Hex();
+
                 var hexFormatPattern = new Regex(@"^#([a-fA-F0-9]{6})");
                 if (hexFormatPattern.IsMatch(hexString))
                 {
@@ -25,13 +26,13 @@ namespace Core.Domain.ValueObjects
                     hex.Green = hexString.Substring(3, 2).ToUpper();
                     hex.Blue = hexString.Substring(5, 2).ToUpper();
                 }
+                return hex;
             }
             catch (Exception ex)
             {
                 throw new HexInvalidException(hexString, ex);
             }
 
-            return hex;
         }
 
         public string Red { get; private set; }
@@ -53,6 +54,12 @@ namespace Core.Domain.ValueObjects
         {
             var rgb = ToRgb();
             return rgb.ToHsv();
+        }
+
+        public Hsl ToHsl()
+        {
+            var rgb = ToRgb();
+            return rgb.ToHsl();
         }
 
         public override string ToString() => $"#{Red}{Green}{Blue}";

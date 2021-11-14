@@ -1,7 +1,11 @@
-import React from "react";
+import { Outlet } from "react-router-dom";
+import Header from "./Header";
 
-type Props = { children: React.ReactChild };
-
-export default function Container(props: Props) {
-  return <div className="mx-0 sm:mx-2">{props.children}</div>;
+export default function Container() {
+  return (
+    <>
+      <Header />
+      <Outlet />
+    </>
+  );
 }

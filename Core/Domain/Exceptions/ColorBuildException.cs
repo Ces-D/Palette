@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Core.Domain.Exceptions
 {
-    public class HexInvalidException : Exception
+    public class ColorBuildException : Exception
     {
-        public HexInvalidException(string hexString, Exception ex) : base($"Invalid Hex string: {hexString}", ex)
+        public ColorBuildException(Exception ex) : base(ex.Message)
         {
 
         }

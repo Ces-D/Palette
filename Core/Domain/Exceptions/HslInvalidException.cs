@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Core.Domain.Exceptions
 {
-    public class HexInvalidException : Exception
+    public class HslInvalidException : Exception
     {
-        public HexInvalidException(string hexString, Exception ex) : base($"Invalid Hex string: {hexString}", ex)
+        public HslInvalidException(string hslString, Exception ex) : base($"Invalid Hsl string: {hslString}", ex)
         {
 
         }

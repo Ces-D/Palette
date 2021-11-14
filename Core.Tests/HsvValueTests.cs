@@ -11,7 +11,7 @@ namespace Core.Tests
     public class HsvValueTests
     {
         [Fact]
-        public void Check_red_green_blue_values_for_white()
+        public void Check_hue_saturation_value_values_for_white()
         {
             var hsv = Hsv.From("hsv(0, 0%, 100%)");
             Assert.Equal(0, hsv.Hue);
@@ -20,7 +20,7 @@ namespace Core.Tests
         }
 
         [Fact]
-        public void Check_red_green_blue_values_for_black()
+        public void Check_hue_saturation_value_values_for_black()
         {
             var hsv = Hsv.From("hsv(0, 0%, 0%)");
             Assert.Equal(0, hsv.Hue);
@@ -29,7 +29,7 @@ namespace Core.Tests
         }
 
         [Fact]
-        public void Check_red_green_blue_values_for_random_1()
+        public void Check_hue_saturation_value_values_for_random_1()
         {
             var hsv = Hsv.From("hsv(163, 89%, 100%)");
             Assert.Equal(163, hsv.Hue);
@@ -38,7 +38,7 @@ namespace Core.Tests
         }
 
         [Fact]
-        public void Check_red_green_blue_values_for_random_2()
+        public void Check_hue_saturation_value_values_for_random_2()
         {
             var hsv = Hsv.From("hsv(28, 45%, 38%)");
             Assert.Equal(28, hsv.Hue);
@@ -47,7 +47,7 @@ namespace Core.Tests
         }
 
         [Fact]
-        public void Check_red_green_blue_values_for_random_3()
+        public void Check_hue_saturation_value_values_for_random_3()
         {
             var hsv = Hsv.From("hsv(274, 86%, 38%)");
             Assert.Equal(274, hsv.Hue);
