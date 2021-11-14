@@ -12,7 +12,7 @@ const initialColorState: ColorState[] = [];
 export const fetchColorModel = createAsyncThunk(
   "color/fetchColorModel",
   async (requestBody: ColorControllerGenerateColorModel): Promise<Color> => {
-    const response = await axios.post("api/Color", requestBody);
+    const response = await axios.post("api/Color/Build", requestBody);
     console.log("FETCH COLOR MODEL RESPONSE: ", response.data);
     return response.data;
   }
@@ -25,7 +25,7 @@ export const fetchColorModel = createAsyncThunk(
 export const fetchRandomColorModel = createAsyncThunk(
   "color/fetchRandomColorModel",
   async (): Promise<Color> => {
-    const response = await axios.get("api/Color");
+    const response = await axios.get("api/Color/Random");
     return response.data;
   }
 );
@@ -80,8 +80,7 @@ const colorSlice = createSlice({
         const updateIndex = state.findIndex(
           (colorState) => colorState.color.id === action.payload.id
         );
-        state[updateIndex].color.hex = action.payload.hex;
-        state[updateIndex].color.hsv = action.payload.hsv;
+        state[updateIndex].color.hsl = action.payload.hsl;
         state[updateIndex].color.rgb = action.payload.rgb;
         return state;
       })

@@ -8,24 +8,34 @@ export interface Rgb {
   blue: number;
 }
 
-/**
- * @summary Model for the Hex Color Model
- */
-export interface Hex {
-  color: string;
-}
+// /**
+//  * @summary Model for the Hex Color Model
+//  */
+// export interface Hex {
+//   color: string;
+// }
+
+// /**
+//  * @summary Model for the Hsv Color Model
+//  */
+// export interface Hsv {
+//   color: string;
+//   hue: number;
+//   saturation: number;
+//   hValue: number;
+// }
 
 /**
- * @summary Model for the Hsv Color Model
+ * @summary Model for the Hsl Color Model
  */
-export interface Hsv {
+export interface Hsl {
   color: string;
   hue: number;
   saturation: number;
-  hValue: number;
+  lightness: number;
 }
 
-export type ColorType = "rgb" | "hex" | "hsv";
+export type ColorType=  "rgb" | "hsl"
 
 /**
  * @summary The view model for the api POST request for ColorController
@@ -44,6 +54,5 @@ export interface ColorState {
 export interface Color {
   id: string;
   rgb: Rgb;
-  hex: Hex;
-  hsv: Hsv;
+  hsl: Hsl;
 }
