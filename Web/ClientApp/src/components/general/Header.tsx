@@ -9,43 +9,52 @@ export default function Header() {
   const loginUrl = "/login";
 
   const mobileHeader = (
-    <>
+    <nav>
       <button className="mr-6 sm:hidden icon-button bg-gray-100 hover:bg-gray-400">
-        <NavLink exact to={homeUrl}>
+        <NavLink to={homeUrl}>
           <PencilIcon />
         </NavLink>
       </button>
       <button className="mr-6 sm:hidden icon-button bg-gray-100 hover:bg-gray-400">
-        <NavLink exact to={exploreUrl}>
+        <NavLink to={exploreUrl}>
           <SearchIcon />
         </NavLink>
       </button>
       <button className="sm:hidden icon-button bg-gray-100 hover:bg-gray-400">
-        <NavLink exact to={loginUrl}>
+        <NavLink to={loginUrl}>
           <LoginIcon />
         </NavLink>
       </button>
-    </>
+    </nav>
   );
 
   const laptopHeader = (
-    <>
+    <nav>
       <h2 className="text-lg hidden sm:inline-block sm:mr-12">
-        <NavLink exact activeClassName="underline" className="text-xl" to={homeUrl}>
+        <NavLink
+          className={(navData) => (navData.isActive ? "underline" : "text-xl")}
+          to={homeUrl}
+        >
           Create
         </NavLink>
       </h2>
       <h2 className="text-lg hidden sm:inline-block mr-6 sm:mr-12">
-        <NavLink activeClassName="underline" className="text-xl" to={exploreUrl}>
+        <NavLink
+          className={(navData) => (navData.isActive ? "underline" : "text-xl")}
+          to={exploreUrl}
+        >
           Explore
         </NavLink>
       </h2>
       <h2 className="text-lg hidden sm:inline-block">
-        <NavLink activeClassName="underline" className="text-xl" to={loginUrl}>
+        <NavLink
+          className={(navData) => (navData.isActive ? "underline" : "text-xl")}
+          to={loginUrl}
+        >
           Login
         </NavLink>
       </h2>
-    </>
+    </nav>
   );
 
   return (
