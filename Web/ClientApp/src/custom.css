@@ -11,9 +11,4 @@
   .icon {
     @apply h-5 w-5 fill-current
   }
-
-  /* base styles for each button that wraps an svg Icon component  */
-  .icon-button {
-    @apply rounded-full p-1
-  }
 }

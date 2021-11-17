@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import LoginIcon from "./icons/LoginIcon";
 import PencilIcon from "./icons/PencilIcon";
 import SearchIcon from "./icons/SearchIcon";
+import { Button } from "@mantine/core";
 
 export default function Header() {
   const homeUrl = "/";
@@ -9,30 +10,45 @@ export default function Header() {
   const loginUrl = "/login";
 
   const mobileHeader = (
-    <nav>
-      <button className="mr-6 sm:hidden icon-button bg-gray-100 hover:bg-gray-400">
-        <NavLink to={homeUrl}>
+    <nav className="block sm:hidden">
+      <Button color="dark" variant="link" className="mr-5">
+        <NavLink
+          className={(navData) =>
+            navData.isActive ? "stroke-2 text-red-500" : "stroke-1"
+          }
+          to={homeUrl}
+        >
           <PencilIcon />
         </NavLink>
-      </button>
-      <button className="mr-6 sm:hidden icon-button bg-gray-100 hover:bg-gray-400">
-        <NavLink to={exploreUrl}>
+      </Button>
+      <Button color="dark" variant="link" className="mr-5">
+        <NavLink
+          className={(navData) =>
+            navData.isActive ? "stroke-2 text-red-500" : "stroke-1"
+          }
+          to={exploreUrl}
+        >
           <SearchIcon />
         </NavLink>
-      </button>
-      <button className="sm:hidden icon-button bg-gray-100 hover:bg-gray-400">
-        <NavLink to={loginUrl}>
+      </Button>
+      <Button color="dark" variant="link" className="mr-5">
+        <NavLink
+          className={(navData) =>
+            navData.isActive ? "stroke-2 text-red-500" : "stroke-1"
+          }
+          to={loginUrl}
+        >
           <LoginIcon />
         </NavLink>
-      </button>
+      </Button>
     </nav>
   );
 
   const laptopHeader = (
-    <nav>
+    <nav className="hidden sm:block">
       <h2 className="text-lg hidden sm:inline-block sm:mr-12">
         <NavLink
-          className={(navData) => (navData.isActive ? "underline" : "text-xl")}
+          className={(navData) => (navData.isActive ? "underline text-red-500 text-xl" : "")}
           to={homeUrl}
         >
           Create
@@ -40,7 +56,7 @@ export default function Header() {
       </h2>
       <h2 className="text-lg hidden sm:inline-block mr-6 sm:mr-12">
         <NavLink
-          className={(navData) => (navData.isActive ? "underline" : "text-xl")}
+          className={(navData) => (navData.isActive ? "underline text-red-500 text-xl" : "")}
           to={exploreUrl}
         >
           Explore
@@ -48,7 +64,7 @@ export default function Header() {
       </h2>
       <h2 className="text-lg hidden sm:inline-block">
         <NavLink
-          className={(navData) => (navData.isActive ? "underline" : "text-xl")}
+          className={(navData) => (navData.isActive ? "underline text-red-500 text-xl" : "")}
           to={loginUrl}
         >
           Login

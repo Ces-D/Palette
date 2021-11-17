@@ -1,8 +1,10 @@
+import { updateLocaleRgbValueOfColorModel } from "../../store/Color/colorSlice";
 import { Color, Hsl, Rgb } from "../../store/Color/types";
+import { useAppDispatch } from "../../store/hooks";
 
 export type ColorFormGenerator<T> = {
   color: T;
-  id: string;
+  dispatchColorInputHandler?: (value: any, key: any) => void;
 };
 
 export type UseColorGeneratorProps = {
@@ -18,14 +20,21 @@ export type UseColorGeneratorProps = {
  */
 
 export default function useColorGenerator(props: UseColorGeneratorProps) {
+  const dispatch = useAppDispatch();
   const rgbFormGenerator: ColorFormGenerator<Rgb> = {
-    id: props.color.id,
     color: props.color.rgb,
+    dispatchColorInputHandler: (value: number, key: "r" | "g" | "b") => {
+      dispatch(
+        updateLocaleRgbValueOfColorModel({
+          id: props.color.id,
+          colorValue: value,
+          rgbType: key,
+        })
+      );
+    },
   };
 
   const hsvFormGenerator: ColorFormGenerator<Hsl> = {
-    // Currently never being used because css doesnt accept hsv values
-    id: props.color.id,
     color: props.color.hsl,
   };
 

@@ -35,22 +35,22 @@ export interface Hsl {
   lightness: number;
 }
 
-export type ColorType=  "rgb" | "hsl"
+export type ColorType = "rgb" | "hsl";
 
 /**
  * @summary The view model for the api POST request for ColorController
  */
-export interface ColorControllerGenerateColorModel {
+export type ColorControllerGenerateColorModel = {
   ColorType: ColorType | string;
   ColorValue: string;
   ColorId: string;
-}
+};
 
-export interface ColorState {
+export type ColorState = {
   locked: boolean;
   isFormDisplayed: boolean;
   color: Color;
-}
+};
 export interface Color {
   id: string;
   rgb: Rgb;

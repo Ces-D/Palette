@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import ColorItem from "../palette/ColorItem";
 import PlusIcon from "../general/icons/PlusIcon";
+import ColorItem from "../palette/ColorItem";
+import { ActionIcon } from "@mantine/core";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchRandomColorModel } from "../../store/Color/colorSlice";
 
@@ -15,18 +16,21 @@ export default function Home() {
 
   return (
     <>
-      <ul className="flex flex-col md:flex-row relative">
+      <ul className="flex flex-col md:flex-row relative min-h-56">
         {colorStates.map((colorState) => (
           <ColorItem key={uuidv4()} {...colorState} />
         ))}
-        <button
+        <ActionIcon
           onClick={() => {
             dispatch(fetchRandomColorModel());
           }}
-          className="absolute bottom-3 md:bottom-1/2 right-5 bg-gray-50 hover:bg-gray-600 icon-button"
+          variant="hover"
+          size="lg"
+          radius="xl"
+          className="absolute bottom-3 md:bottom-1/2 right-5"
         >
-          <PlusIcon class="text-red-600" />
-        </button>
+          <PlusIcon class="text-red-500" />
+        </ActionIcon>
       </ul>
     </>
   );
