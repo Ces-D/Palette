@@ -2,40 +2,29 @@ import { useState } from "react";
 import { ColorState } from "../../store/Color/types";
 import { Popover, Group, Button, ActionIcon } from "@mantine/core";
 import RgbForm from "./RgbForm";
+import HslForm from "./HslForm";
 import { useAppDispatch } from "../../store/hooks";
 import { setLocked, removeColorModel } from "../../store/Color/colorSlice";
-import { useForm, useToggle } from "@mantine/hooks";
 import CogIcon from "../general/icons/CogIcon";
 import UtilityIcons from "./forms/UtilityIcons";
+import useRequestUpdatedColorModel from "../hooks/useRequestUpdatedColorModel";
+
 
 export default function ColorItem(props: ColorState) {
   const dispatch = useAppDispatch();
   const [opened, setOpened] = useState(false);
-  const rgbForm = useForm({
-    initialValues: props.color.rgb,
-    validationRules: {
-      red: (value) => value >= 0 && value < 256,
-      green: (value) => value >= 0 && value < 256,
-      blue: (value) => value >= 0 && value < 256,
-    },
-  });
-  const hslForm = useForm({
-    initialValues: props.color.hsl,
-    validationRules: {
-      hue: (value) => value >= 0 && value < 256,
-      saturation: (value) => value >= 0 && value < 256,
-      lightness: (value) => value >= 0 && value < 256,
-    },
-  });
-  const [colorType, toggle] = useToggle("rgb", ["rgb", "hsl"]);
+  const { requestUpdateAndChangeColorType, isRgbActiveColorType, rgbForm, hslForm } =
+    useRequestUpdatedColorModel(props.color, props.activeColorType);
 
   const formRgbColor = `rgb(${rgbForm.values.red}, ${rgbForm.values.green}, ${rgbForm.values.blue})`;
   const formHslColor = `hsl(${hslForm.values.hue}, ${hslForm.values.saturation}%, ${hslForm.values.lightness}%)`;
 
   return (
     <li
-      style={{ backgroundColor: colorType === "rgb" ? formRgbColor : formHslColor }}
-      className="w-full h-96"
+      style={{
+        backgroundColor: isRgbActiveColorType ? formRgbColor : formHslColor,
+      }}
+      className="w-full h-40 md:h-96"
     >
       <Group
         direction="column"
@@ -43,16 +32,23 @@ export default function ColorItem(props: ColorState) {
         spacing="md"
         className="h-full justify-end"
       >
-        <div>
-          <Button name={colorType} onClick={() => toggle()}>
-            {colorType === "rgb" ? formRgbColor : formHslColor}
-          </Button>
-        </div>
+        <Button
+          variant="link"
+          onClick={() =>
+            isRgbActiveColorType
+              ? requestUpdateAndChangeColorType(rgbForm)
+              : requestUpdateAndChangeColorType(hslForm)
+          }
+        >
+          <h2 className="text-2xl">
+            {isRgbActiveColorType ? formRgbColor : formHslColor}
+          </h2>
+        </Button>
         <Popover
           opened={opened}
           onClose={() => setOpened(false)}
           position="top"
-          placement="end"
+          placement="center"
           withArrow
           withCloseButton
           transition="pop-top-right"
@@ -63,7 +59,7 @@ export default function ColorItem(props: ColorState) {
             </ActionIcon>
           }
         >
-          <RgbForm form={rgbForm} />
+          {isRgbActiveColorType ? <RgbForm form={rgbForm} /> : <HslForm form={hslForm} />}
         </Popover>
         <UtilityIcons
           locked={props.locked}
@@ -78,5 +74,3 @@ export default function ColorItem(props: ColorState) {
     </li>
   );
 }
-
-// TODO: create the hsl Form and on ActionIcon Click of Popover then call on the api

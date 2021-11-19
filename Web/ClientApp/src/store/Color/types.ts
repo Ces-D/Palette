@@ -37,21 +37,30 @@ export interface Hsl {
 
 export type ColorType = "rgb" | "hsl";
 
+export enum BuildColorType {
+  Rgb = 0,
+  Hsl = 1,
+}
+
 /**
  * @summary The view model for the api POST request for ColorController
  */
 export type ColorControllerGenerateColorModel = {
-  ColorType: ColorType | string;
-  ColorValue: string;
-  ColorId: string;
+  ColorType: BuildColorType;
+  Color: string;
+  Id: string;
 };
 
 export type ColorState = {
   locked: boolean;
   isFormDisplayed: boolean;
   color: Color;
+  activeColorType: BuildColorType;
 };
-export interface Color {
+
+export interface Color extends ApiColorModel {}
+
+export interface ApiColorModel {
   id: string;
   rgb: Rgb;
   hsl: Hsl;

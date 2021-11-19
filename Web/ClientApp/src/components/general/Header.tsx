@@ -10,7 +10,7 @@ export default function Header() {
   const loginUrl = "/login";
 
   const mobileHeader = (
-    <nav className="block sm:hidden">
+    <nav className="block sm:hidden pt-1">
       <Button color="dark" variant="link" className="mr-5">
         <NavLink
           className={(navData) =>
@@ -31,7 +31,7 @@ export default function Header() {
           <SearchIcon />
         </NavLink>
       </Button>
-      <Button color="dark" variant="link" className="mr-5">
+      <Button color="dark" variant="link" className="mr-2">
         <NavLink
           className={(navData) =>
             navData.isActive ? "stroke-2 text-red-500" : "stroke-1"
@@ -74,7 +74,7 @@ export default function Header() {
   );
 
   return (
-    <header className="max-w-4xl m-auto h-20 flex justify-between items-center px-1 sm:px-0">
+    <header className="w-full sm:max-w-4xl m-auto h-20 flex justify-between items-center px-1 sm:px-0">
       <h1 className="text-3xl font-bold">Palette</h1>
       <section className="w-1/2 text-right">
         {mobileHeader}

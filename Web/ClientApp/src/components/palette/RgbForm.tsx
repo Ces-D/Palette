@@ -1,13 +1,14 @@
-import React from "react";
+// import { UseFormReturnType } from "./ColorItem";
 import SliderAndInput from "./forms/SliderAndInput";
 
 interface RgbFormProps {
+  // form: UseFormReturnType<Rgb>;
   form: any;
 }
 
-export default React.memo(function RgbForm(props: RgbFormProps) {
+export default function RgbForm(props: RgbFormProps) {
   return (
-    <div className="w-96">
+    <div className=" w-full md:w-96">
       <SliderAndInput
         header="Red"
         min={0}
@@ -59,6 +60,4 @@ export default React.memo(function RgbForm(props: RgbFormProps) {
       />
     </div>
   );
-});
-
-//TODO: add input for changing the range value, make it focusable, see if this needs a useCallback
+}

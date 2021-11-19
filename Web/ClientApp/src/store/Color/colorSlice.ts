@@ -1,6 +1,11 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Color, ColorControllerGenerateColorModel, ColorState } from "./types";
+import {
+  ApiColorModel,
+  BuildColorType,
+  ColorControllerGenerateColorModel,
+  ColorState,
+} from "./types";
 
 const initialColorState: ColorState[] = [];
 
@@ -11,7 +16,7 @@ const initialColorState: ColorState[] = [];
  */
 export const fetchColorModel = createAsyncThunk(
   "color/fetchColorModel",
-  async (requestBody: ColorControllerGenerateColorModel): Promise<Color> => {
+  async (requestBody: ColorControllerGenerateColorModel): Promise<ApiColorModel> => {
     const response = await axios.post("api/Color/Build", requestBody);
     console.log("FETCH COLOR MODEL RESPONSE: ", response.data);
     return response.data;
@@ -24,7 +29,7 @@ export const fetchColorModel = createAsyncThunk(
  */
 export const fetchRandomColorModel = createAsyncThunk(
   "color/fetchRandomColorModel",
-  async (): Promise<Color> => {
+  async (): Promise<ApiColorModel> => {
     const response = await axios.get("api/Color/Random");
     return response.data;
   }
@@ -48,30 +53,18 @@ const colorSlice = createSlice({
       state[updateIndex].locked = !state[updateIndex].locked;
       return state;
     },
-    removeColorModel(state, action: PayloadAction<{ id: string }>) {
-      return state.filter((colorState) => colorState.color.id !== action.payload.id);
-    },
-    updateLocaleRgbValueOfColorModel(
+    setActiveColorType(
       state,
-      action: PayloadAction<{ id: string; colorValue: number; rgbType: "r" | "g" | "b" }>
+      action: PayloadAction<{ id: string; colorType: BuildColorType }>
     ) {
       const updateIndex = state.findIndex(
         (colorState) => colorState.color.id === action.payload.id
       );
-      switch (action.payload.rgbType) {
-        case "r":
-          state[updateIndex].color.rgb.red = action.payload.colorValue;
-          break;
-        case "g":
-          state[updateIndex].color.rgb.green = action.payload.colorValue;
-          break;
-        case "b":
-          state[updateIndex].color.rgb.blue = action.payload.colorValue;
-          break;
-        default:
-          break;
-      }
+      state[updateIndex].activeColorType = action.payload.colorType;
       return state;
+    },
+    removeColorModel(state, action: PayloadAction<{ id: string }>) {
+      return state.filter((colorState) => colorState.color.id !== action.payload.id);
     },
   },
   extraReducers: (builder) => {
@@ -85,27 +78,16 @@ const colorSlice = createSlice({
         return state;
       })
       .addCase(fetchRandomColorModel.fulfilled, (state, action) => {
-        state.push({ locked: false, isFormDisplayed: false, color: action.payload });
+        state.push({
+          locked: false,
+          isFormDisplayed: false,
+          activeColorType: 0,
+          color: { ...action.payload },
+        });
       });
   },
 });
 
-export const {
-  removeColorModel,
-  updateLocaleRgbValueOfColorModel,
-  setIsFormDisplayed,
-  setLocked,
-} = colorSlice.actions;
+export const { removeColorModel, setIsFormDisplayed, setLocked, setActiveColorType } =
+  colorSlice.actions;
 export default colorSlice.reducer;
-
-//FIXME: currently FormGenerators are bloat code. They do not reduce many features
-// Hex color and Hsv color is not being used and is being calculated from the rgb color values
-// HSV does not do anything because hsv cannot be used as a css color unlike hsl
-
-// Currently fetchColorModel needs testing
-/**
- * This is because the plan is to fetch the color model only when switching between color Types.
- * But since there currently is only rgb then we cannot switch between so it cannot be tested. This maintains
- * the responsiveness of the client and doesnt overload the server when being called a million times if user
- * plays with slider
- */
