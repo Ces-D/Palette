@@ -18,7 +18,6 @@ export const fetchColorModel = createAsyncThunk(
   "color/fetchColorModel",
   async (requestBody: ColorControllerGenerateColorModel): Promise<ApiColorModel> => {
     const response = await axios.post("api/Color/Build", requestBody);
-    console.log("FETCH COLOR MODEL RESPONSE: ", response.data);
     return response.data;
   }
 );

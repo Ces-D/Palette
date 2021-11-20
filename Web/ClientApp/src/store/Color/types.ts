@@ -35,8 +35,6 @@ export interface Hsl {
   lightness: number;
 }
 
-export type ColorType = "rgb" | "hsl";
-
 export enum BuildColorType {
   Rgb = 0,
   Hsl = 1,
@@ -46,9 +44,9 @@ export enum BuildColorType {
  * @summary The view model for the api POST request for ColorController
  */
 export type ColorControllerGenerateColorModel = {
-  ColorType: BuildColorType;
-  Color: string;
-  Id: string;
+  colorType: BuildColorType;
+  color: string;
+  id: string;
 };
 
 export type ColorState = {
