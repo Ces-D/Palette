@@ -14,7 +14,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="w-full relative">
+    <div className="w-full relative inline-block">
       <Palette />
     </div>
   );

@@ -9,9 +9,7 @@ module.exports = {
       }),
       minHeight: (theme) => ({
         56: "14rem",
-      }),
-      minWidth: (theme) => ({
-        10: "2.5rem",
+        "half-screen": "75vh",
       }),
     },
   },
