@@ -11,7 +11,7 @@ export default function Header() {
 
   const mobileHeader = (
     <nav className="block sm:hidden pt-1">
-      <Button color="dark" variant="link" className="mr-5">
+      <Button color="dark" variant="light" className="mr-5">
         <NavLink
           className={(navData) =>
             navData.isActive ? "stroke-2 text-red-500" : "stroke-1"
@@ -21,7 +21,7 @@ export default function Header() {
           <PencilIcon />
         </NavLink>
       </Button>
-      <Button color="dark" variant="link" className="mr-5">
+      <Button color="dark" variant="light" className="mr-5">
         <NavLink
           className={(navData) =>
             navData.isActive ? "stroke-2 text-red-500" : "stroke-1"
@@ -31,7 +31,7 @@ export default function Header() {
           <SearchIcon />
         </NavLink>
       </Button>
-      <Button color="dark" variant="link" className="mr-2">
+      <Button color="dark" variant="light" className="mr-2">
         <NavLink
           className={(navData) =>
             navData.isActive ? "stroke-2 text-red-500" : "stroke-1"
@@ -48,7 +48,9 @@ export default function Header() {
     <nav className="hidden sm:block">
       <h2 className="text-lg hidden sm:inline-block sm:mr-12">
         <NavLink
-          className={(navData) => (navData.isActive ? "underline text-red-500 text-xl" : "")}
+          className={(navData) =>
+            navData.isActive ? "underline text-red-500 text-xl" : ""
+          }
           to={homeUrl}
         >
           Create
@@ -56,7 +58,9 @@ export default function Header() {
       </h2>
       <h2 className="text-lg hidden sm:inline-block mr-6 sm:mr-12">
         <NavLink
-          className={(navData) => (navData.isActive ? "underline text-red-500 text-xl" : "")}
+          className={(navData) =>
+            navData.isActive ? "underline text-red-500 text-xl" : ""
+          }
           to={exploreUrl}
         >
           Explore
@@ -64,7 +68,9 @@ export default function Header() {
       </h2>
       <h2 className="text-lg hidden sm:inline-block">
         <NavLink
-          className={(navData) => (navData.isActive ? "underline text-red-500 text-xl" : "")}
+          className={(navData) =>
+            navData.isActive ? "underline text-red-500 text-xl" : ""
+          }
           to={loginUrl}
         >
           Login
@@ -74,11 +80,13 @@ export default function Header() {
   );
 
   return (
-    <header className="w-full sm:max-w-4xl m-auto h-20 flex justify-between items-center px-1 sm:px-0">
-      <h1 className="text-3xl font-bold">Palette</h1>
-      <section className="w-1/2 text-right">
-        {mobileHeader}
-        {laptopHeader}
+    <header className="w-full border-b border-solid border-gray-400">
+      <section className="sm:max-w-4xl m-auto h-20 flex justify-between items-center px-1 sm:px-0 ">
+        <h1 className="text-3xl font-bold">Palette</h1>
+        <div className="w-1/2 text-right">
+          {mobileHeader}
+          {laptopHeader}
+        </div>
       </section>
     </header>
   );

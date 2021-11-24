@@ -1,24 +1,19 @@
 import { ActionIcon } from "@mantine/core";
-import { useEffect } from "react";
 import { v4 } from "uuid";
 import { fetchRandomColorModel } from "../../store/Color/colorSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import PlusIcon from "../general/icons/PlusIcon";
-import ColorItem from "./ColorItem";
+import ColorColumn from "./forms/ColorColumn";
 
 export default function Palette() {
   const colorStates = useAppSelector((state) => state.colors);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchRandomColorModel());
-  }, []);
-
   return (
-    <section className="w-full relative">
-      <ul className="grid grid-cols-5">
+    <section className="relative">
+      <ul className="w-full flex flex-row">
         {colorStates.map((colorState) => (
-          <ColorItem key={v4()} {...colorState} />
+          <ColorColumn key={v4()} colorState={colorState} />
         ))}
       </ul>
       <ActionIcon
@@ -35,5 +30,3 @@ export default function Palette() {
     </section>
   );
 }
-
-//TODO: this looks fine if there are many colorItems but not if there is only one

@@ -18,6 +18,7 @@ export const fetchColorModel = createAsyncThunk(
   "color/fetchColorModel",
   async (requestBody: ColorControllerGenerateColorModel): Promise<ApiColorModel> => {
     const response = await axios.post("api/Color/Build", requestBody);
+    console.log("THIS IS CALLED");
     return response.data;
   }
 );
@@ -43,13 +44,6 @@ const colorSlice = createSlice({
         (colorState) => colorState.color.id === action.payload.id
       );
       state[updateIndex].isFormDisplayed = !state[updateIndex].isFormDisplayed;
-      return state;
-    },
-    setLocked(state, action: PayloadAction<{ id: string }>) {
-      const updateIndex = state.findIndex(
-        (colorState) => colorState.color.id === action.payload.id
-      );
-      state[updateIndex].locked = !state[updateIndex].locked;
       return state;
     },
     setActiveColorType(
@@ -78,7 +72,6 @@ const colorSlice = createSlice({
       })
       .addCase(fetchRandomColorModel.fulfilled, (state, action) => {
         state.push({
-          locked: false,
           isFormDisplayed: false,
           activeColorType: 0,
           color: { ...action.payload },
@@ -87,6 +80,6 @@ const colorSlice = createSlice({
   },
 });
 
-export const { removeColorModel, setIsFormDisplayed, setLocked, setActiveColorType } =
+export const { removeColorModel, setIsFormDisplayed, setActiveColorType } =
   colorSlice.actions;
 export default colorSlice.reducer;

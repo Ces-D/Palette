@@ -1,5 +1,3 @@
-import { useAppDispatch } from "../../store/hooks";
-import { fetchColorModel, setActiveColorType } from "../../store/Color/colorSlice";
 import { BuildColorType, Color } from "../../store/Color/types";
 import { useForm } from "@mantine/hooks";
 
@@ -10,8 +8,6 @@ export default function useRequestUpdatedColorModel(
   colorModel: Color,
   currentColorType: BuildColorType
 ) {
-  const dispatch = useAppDispatch();
-
   const rgbForm = useForm({
     initialValues: colorModel.rgb,
     validationRules: {
@@ -30,47 +26,12 @@ export default function useRequestUpdatedColorModel(
     },
   });
 
-  /**
-   * A function that couples the two dispatch functions of requesting the updated color model and updating the active color type.
-   * As of now the requests are fixed to happening when the user is switching between viewing the hsl and rgb displays
-   */
-  const requestUpdateAndChangeColorType = () => {
-    switch (currentColorType) {
-      case BuildColorType.Rgb:
-        dispatch(
-          fetchColorModel({
-            id: colorModel.id,
-            colorType: BuildColorType.Rgb,
-            color: formRgbColor,
-          })
-        );
-        dispatch(
-          setActiveColorType({ id: colorModel.id, colorType: BuildColorType.Hsl })
-        );
-        break;
-      case BuildColorType.Hsl:
-        dispatch(
-          fetchColorModel({
-            id: colorModel.id,
-            colorType: BuildColorType.Hsl,
-            color: formHslColor,
-          })
-        );
-        dispatch(
-          setActiveColorType({ id: colorModel.id, colorType: BuildColorType.Rgb })
-        );
-        break;
-      default:
-        break;
-    }
-  };
-
   const formHslColor = `hsl(${hslForm.values.hue}, ${hslForm.values.saturation}%, ${hslForm.values.lightness}%)`;
   const formRgbColor = `rgb(${rgbForm.values.red}, ${rgbForm.values.green}, ${rgbForm.values.blue})`;
   const isRgbActiveColorType = currentColorType === BuildColorType.Rgb;
 
   return {
-    requestUpdateAndChangeColorType,
+    colorId: colorModel.id,
     isRgbActiveColorType: isRgbActiveColorType,
     formHslColor: formHslColor,
     formRgbColor: formRgbColor,
@@ -78,6 +39,15 @@ export default function useRequestUpdatedColorModel(
     hslForm: hslForm,
   };
 }
+
+export type UseRequestUpdatedColorModelReturnType = {
+  colorId: string;
+  isRgbActiveColorType: boolean;
+  formHslColor: string;
+  formRgbColor: string;
+  rgbForm: Object;
+  hslForm: Object;
+};
 
 // THIS FAILS FOR SOME REASON
 // export interface UseFormReturnType<T> {

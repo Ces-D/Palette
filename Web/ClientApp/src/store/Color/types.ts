@@ -50,7 +50,6 @@ export type ColorControllerGenerateColorModel = {
 };
 
 export type ColorState = {
-  locked: boolean;
   isFormDisplayed: boolean;
   color: Color;
   activeColorType: BuildColorType;
