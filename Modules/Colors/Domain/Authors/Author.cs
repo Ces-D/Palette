@@ -26,6 +26,8 @@ namespace Palette.Modules.Palettes.Domain.Authors
             _userName = userName;
             _email = email;
             _createdDate = SystemClock.Now;
+
+            // TODO: add event for created
         }
     }
 }

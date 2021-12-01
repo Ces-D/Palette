@@ -41,16 +41,6 @@ namespace Palette.Base.Domain
             }
         }
 
-        private bool PropertiesAreEqual(object obj, PropertyInfo p)
-        {
-            return object.Equals(p.GetValue(this, null), p.GetValue(obj, null));
-        }
-
-        private bool FieldsAreEqual(object obj, FieldInfo f)
-        {
-            return object.Equals(f.GetValue(this), f.GetValue(obj));
-        }
-
         private IEnumerable<PropertyInfo> GetProperties()
         {
             if (this._properties == null)

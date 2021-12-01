@@ -1,5 +1,6 @@
 ﻿using Palette.Base.Domain;
 using Palette.Modules.Palettes.Domain.Colors.ColorTypes;
+using Palette.Modules.Palettes.Domain.Colors.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace Palette.Modules.Palettes.Domain.Colors
 
         private Color(ColorType colorType, IColorType color)
         {
+            this.CheckRule(new ColorTypeAndIColorTypeRepresentTheSameColorFormatRule(colorType, color));
+
             Id = new ColorId(Guid.NewGuid());
             _colorType = colorType;
             _color = color;
@@ -24,14 +27,20 @@ namespace Palette.Modules.Palettes.Domain.Colors
 
         public static Color CreateNew(ColorType colorType, IColorType color)
         {
-            // TODO: add rule that ensures that the colorType and typeof IColorType are the same 
             return new Color(colorType, color);
         }
 
-        public void UpdateColorValues(ColorType colorType, IColorType color)
+        internal void UpdateColorValues(ColorType colorType, IColorType color)
         {
+            this.CheckRule(new ColorTypeAndIColorTypeRepresentTheSameColorFormatRule(colorType, color));
+
             _colorType = colorType;
             _color = color;
+        }
+
+        internal bool IsActiveInPalette(ColorId colorId)
+        {
+            return colorId == Id;
         }
     }
 }
