@@ -36,9 +36,9 @@ public record Hsl : ValueObject, IColorFormat
         else { throw new ArgumentException("Invalid hsl string", nameof(hslColor)); }
     }
 
-    public IColorFormat ConvertTo(ColorType toType)
+    public IColorFormat ConvertTo(ColorType formatType)
     {
-        switch (toType)
+        switch (formatType)
         {
             case ColorType.Rgb:
                 return this.ToRgb();
@@ -46,6 +46,7 @@ public record Hsl : ValueObject, IColorFormat
                 return this;
         }
     }
+    // TODO: make this function private and create management similar to color.cs
 
     private Rgb ToRgb()
     {

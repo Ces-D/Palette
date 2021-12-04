@@ -29,7 +29,7 @@ public class Palette : Entity
         return new Palette(name, authorId);
     }
 
-    public void AddColor(Color color)
+    public void AddNewColor(Color color)
     {
         this.CheckRule(new PaletteColorsCannotExceedLengthLimit(PALETTE_MAX_LENGTH, _colorPalette.Count));
         this.CheckRule(new ColorCanOnlyBeAddedOnceRule(_colorPalette, color.Id));
@@ -38,13 +38,8 @@ public class Palette : Entity
         // TODO; send event 
     }
 
-    public void AddHarmony(Color primaryColor, HarmonyType harmonyType)
-    {
-        var harmony = new Harmony(primaryColor, harmonyType);
-        this.CheckRule(new HarmonyAdditionCannotExceedLengthLimit(PALETTE_MAX_LENGTH, harmony.HarmonyData.Length, _colorPalette.Count));
-
-        _activeHarmony = harmony;
-        //TODO: move this into the harmony function because this handles its own state and updating is not possible likethis
-        // this should trigger the creation of new harmony colors
+    public void UpdateExistingColor(ColorId targetColor, IColorFormat colorFormat){
+        // _colorPalette.Single(c=> c.UpdateColorValues())
+        // TODO: When the TODO in the Color.cs is complete come back here
     }
 }

@@ -22,6 +22,8 @@ public class Color : Entity
         return new Color(colorType, color);
     }
 
+    internal IColorFormat ColorFormat => _color;
+
     internal void UpdateColorValues(ColorType colorType, IColorFormat color)
     {
         this.CheckRule(new ColorTypeAndColorRepresentTheSameColorFormatRule(colorType, color));
@@ -29,6 +31,8 @@ public class Color : Entity
         _colorType = colorType;
         _color = color;
     }
+    // TODO: The UpdateColorValues function should not require both the format and type to be added. The type 
+    // should managing the creation fo the format
 
     internal bool IsActiveInPalette(ColorId colorId)
     {

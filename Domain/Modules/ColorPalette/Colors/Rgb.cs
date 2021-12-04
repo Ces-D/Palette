@@ -6,7 +6,6 @@ public record Rgb : ValueObject, IColorFormat
     public byte Red { get; }
     public byte Green { get; }
     public byte Blue { get; }
-
     public ColorType ColorType { get; }
 
     private Rgb(byte red, byte green, byte blue)
@@ -32,9 +31,9 @@ public record Rgb : ValueObject, IColorFormat
         else { throw new ArgumentException("Invalid rgb string", nameof(rgbColor)); }
     }
 
-    public IColorFormat ConvertTo(ColorType toType)
+    public IColorFormat ConvertTo(ColorType formatType)
     {
-        switch (toType)
+        switch (formatType)
         {
             case ColorType.Hsl:
                 return this.ToHsl();
@@ -43,6 +42,7 @@ public record Rgb : ValueObject, IColorFormat
         }
     }
 
+    public static explicit operator Hsl(Rgb rgbFormat) => rgbFormat.ToHsl();
     private Hsl ToHsl()
     {
         if (Red == 255 && Green == 255 && Blue == 255) { return Hsl.Create($"hsl(0, 0%, 100%)"); }  // white

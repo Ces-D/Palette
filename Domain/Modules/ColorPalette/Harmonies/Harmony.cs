@@ -5,27 +5,43 @@ public class Harmony : Entity
 {
     public HarmonyId Id { get; private set; }
     private Color _primaryColor;
-    internal HarmonyType HarmonyType { get; private set; }
-    public IHarmony HarmonyData { get; private set; }
+    private HarmonyType _harmonyType;
+    private IHarmony _harmonyData;
 
     internal Harmony(Color primaryColor, HarmonyType harmonyType)
     {
         Id = new HarmonyId(Guid.NewGuid());
         _primaryColor = primaryColor;
-        HarmonyType = harmonyType;
+        _harmonyType = harmonyType;
+        _harmonyData = this.NewHarmonyData(harmonyType);
+    }
+
+    private IHarmony NewHarmonyData(HarmonyType harmonyType)
+    {
+        IHarmony harmonyData;
 
         switch (harmonyType)
         {
             case (HarmonyType.Complimentary):
-                HarmonyData = ComplimentaryHarmony.CreateNew(primaryColor);
+                harmonyData = ComplimentaryHarmony.CreateNew(_primaryColor);
                 break;
             default:
-                HarmonyData = ComplimentaryHarmony.CreateNew(primaryColor);
+                harmonyData = ComplimentaryHarmony.CreateNew(_primaryColor);
                 break;
         }
+
+        return harmonyData;
     }
 
-}
+    internal void ChangeHarmonyType(HarmonyType newType)
+    {
+        _harmonyType = newType;
+        _harmonyData = this.NewHarmonyData(newType);
+    }
 
-// TODO: consider making this an abstract class and an interface so that the same logic is managed through contracts
-// and it will be specialized for each kind of harmony.
+    internal void ChangePrimaryColor(Color newColor)
+    {
+        _primaryColor = newColor;
+        this.NewHarmonyData(_harmonyType);
+    }
+}
