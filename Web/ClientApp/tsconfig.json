@@ -4,7 +4,8 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "esnext",
+      "ES2021"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -17,6 +18,7 @@
     "isolatedModules": true,
     "resolveJsonModule": true,
     "noEmit": true,
+    "noEmitOnError": true,
     "jsx": "react-jsx",
     "sourceMap": true,
     "declaration": true,
@@ -24,8 +26,8 @@
     "noUnusedParameters": true,
     "incremental": true,
     "noFallthroughCasesInSwitch": true,
-    "downlevelIteration": true,
-    "outDir": "dist"
+    "downlevelIteration": false,
+    "outDir": "build"
   },
   "include": [
     "src/**/*"

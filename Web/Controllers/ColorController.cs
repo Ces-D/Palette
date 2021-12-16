@@ -49,8 +49,4 @@ namespace Web.Controllers
         }
     }
 }
-
-// TODO: controllers are not throwing any errors when inputs incorrect
-// TODO: update the endpoints called by the client reducers
-
 // TODO: When you start working on creating profiles, set Palette api endpoints according to the paletteModel written in ClientApp/src/store/Palette

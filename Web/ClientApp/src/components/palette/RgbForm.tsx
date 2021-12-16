@@ -1,74 +1,62 @@
-import { Rgb } from "../../store/Color/types";
-import ColorInputSection from "../general/form/ColorInputSection";
-import ColorSelectSection from "../general/form/ColorSelectSection";
-import { ColorFormGenerator } from "../hooks/useColorGenerator";
-import { BaseColorFormProps } from "./ColorFormDisplayContainer";
-import { useAppDispatch } from "../../store/hooks";
-import { updateLocaleRgbValueOfColorModel } from "../../store/Color/colorSlice";
+// import { UseFormReturnType } from "./ColorItem";
+import SliderAndInput from "./forms/SliderAndInput";
 
-export type Props = BaseColorFormProps & ColorFormGenerator<Rgb>;
+interface RgbFormProps {
+  // form: UseFormReturnType<Rgb>;
+  form: any;
+}
 
-export default function RgbForm(props: Props) {
-  const dispatch = useAppDispatch();
-
+export default function RgbForm(props: RgbFormProps) {
   return (
-    <div title={props.value} className="p-2 bg-white rounded-sm w-1/2 sm:w-64">
-      <ColorInputSection
-        title="Red"
-        max={255}
+    <div className=" w-full md:w-96">
+      <SliderAndInput
+        header="Red"
         min={0}
-        value={props.color.red}
-        onChangeHandler={(e) => {
-          dispatch(
-            updateLocaleRgbValueOfColorModel({
-              id: props.id,
-              colorValue: e.target.valueAsNumber,
-              rgbType: "r",
-            })
-          );
-        }}
-        range={true}
-        rangeClasses="bg-red-500 appearance-none w-full h-1 rounded outline-none slider-thumb py-1"
-      />
-      <ColorInputSection
-        title="Green"
         max={255}
-        min={0}
-        value={props.color.green}
-        onChangeHandler={(e) => {
-          dispatch(
-            updateLocaleRgbValueOfColorModel({
-              id: props.id,
-              colorValue: e.target.valueAsNumber,
-              rgbType: "g",
-            })
-          );
+        value={props.form.values.red}
+        name="red"
+        onChange={(e) => props.form.setFieldValue("red", e)}
+        error={props.form.errors.red && "Red values must be between 0 and 255"}
+        classNames={{
+          root: "mt-2",
+          track: "bg-red-700",
+          bar: "bg-red-700",
+          thumb: "bg-white border-red-700",
+          label: "bg-white text-red-500 border border-solid border-red-500",
         }}
-        range={true}
-        rangeClasses="bg-green-500 appearance-none w-full h-1 rounded outline-none slider-thumb py-1"
       />
-      <ColorInputSection
-        title="Blue"
+
+      <SliderAndInput
+        header="Green"
+        min={0}
         max={255}
-        min={0}
-        value={props.color.blue}
-        onChangeHandler={(e) => {
-          dispatch(
-            updateLocaleRgbValueOfColorModel({
-              id: props.id,
-              colorValue: e.target.valueAsNumber,
-              rgbType: "b",
-            })
-          );
+        value={props.form.values.green}
+        name="red"
+        onChange={(e) => props.form.setFieldValue("green", e)}
+        error={props.form.errors.green && "Green values must be between 0 and 255"}
+        classNames={{
+          root: "mt-2",
+          track: "bg-green-700",
+          bar: "bg-green-700",
+          thumb: "bg-white border-green-700",
+          label: "bg-white text-green-500 border border-solid border-green-500",
         }}
-        range={true}
-        rangeClasses="bg-blue-500 appearance-none w-full h-1 rounded outline-none slider-thumb py-1"
       />
-      <ColorSelectSection
-        selected={props.baseSelectSection.selected}
-        setActiveColorType={props.baseSelectSection.setActiveColorType}
-        rgbColor={props.baseSelectSection.rgbColor}
-        colorId={props.id}
+      <SliderAndInput
+        header="Blue"
+        min={0}
+        max={255}
+        value={props.form.values.blue}
+        name="blue"
+        onChange={(e) => props.form.setFieldValue("blue", e)}
+        error={props.form.errors.blue && "Blue values must be between 0 and 255"}
+        classNames={{
+          root: "mt-2",
+          track: "bg-blue-700",
+          bar: "bg-blue-700",
+          thumb: "bg-white border-blue-700",
+          label: "bg-white text-blue-500 border border-solid border-blue-500",
+        }}
       />
     </div>
   );
