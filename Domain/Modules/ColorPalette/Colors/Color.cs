@@ -22,17 +22,19 @@ public class Color : Entity
         return new Color(colorType, color);
     }
 
-    internal IColorFormat ColorFormat => _color;
+    internal IColorFormat ColorValue => _color;
 
-    internal void UpdateColorValues(ColorType colorType, IColorFormat color)
+    internal void ChangeColorType(ColorType newType)
     {
-        this.CheckRule(new ColorTypeAndColorRepresentTheSameColorFormatRule(colorType, color));
-
-        _colorType = colorType;
-        _color = color;
+        _colorType = newType;
+        _color.ConvertTo(newType);
     }
-    // TODO: The UpdateColorValues function should not require both the format and type to be added. The type 
-    // should managing the creation fo the format
+
+    internal void ChangeColorValues(IColorFormat newValues)
+    {
+        this.CheckRule(new ColorTypeAndColorRepresentTheSameColorFormatRule(_colorType, newValues));
+        _color = newValues;
+    }
 
     internal bool IsActiveInPalette(ColorId colorId)
     {

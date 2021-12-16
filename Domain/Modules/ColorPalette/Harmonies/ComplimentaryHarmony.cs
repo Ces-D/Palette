@@ -31,8 +31,8 @@ public record ComplimentaryHarmony : ValueObject, IHarmony
         Hsl primaryHsl, complimentHsl;
 
         // Get the Hsl from the primary color regardless of IColorFormat
-        primaryHsl = PrimaryColor.ColorFormat.ColorType != ColorType.Hsl ?
-            (Hsl)PrimaryColor.ColorFormat.ConvertTo(ColorType.Hsl) : (Hsl)PrimaryColor.ColorFormat;
+        primaryHsl = PrimaryColor.ColorValue.ColorType != ColorType.Hsl ?
+            (Hsl)PrimaryColor.ColorValue.ConvertTo(ColorType.Hsl) : (Hsl)PrimaryColor.ColorValue;
 
         // Populate the complimentHsl value
         if (primaryHsl.Hue == 0 && primaryHsl.Saturation == 0 && primaryHsl.Lightness == 0) // compliment of black is white

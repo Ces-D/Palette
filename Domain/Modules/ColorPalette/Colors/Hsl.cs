@@ -46,7 +46,6 @@ public record Hsl : ValueObject, IColorFormat
                 return this;
         }
     }
-    // TODO: make this function private and create management similar to color.cs
 
     private Rgb ToRgb()
     {

@@ -12,7 +12,7 @@ public class Palette : Entity
     private AuthorId _authorId;
     private List<Color> _colorPalette;
     private DateTime _createDate;
-    private Harmony? _activeHarmony;
+    // private Harmony? _activeHarmony;
     private const int PALETTE_MAX_LENGTH = 10;
 
     private Palette(string title, AuthorId authorId)
@@ -38,8 +38,10 @@ public class Palette : Entity
         // TODO; send event 
     }
 
-    public void UpdateExistingColor(ColorId targetColor, IColorFormat colorFormat){
-        // _colorPalette.Single(c=> c.UpdateColorValues())
-        // TODO: When the TODO in the Color.cs is complete come back here
+    public void RemoveExistingColor(ColorId targetColorId)
+    {
+        _colorPalette.RemoveAll(c => c.Id == targetColorId);
     }
+
+    public List<Color> Colors => _colorPalette;
 }
